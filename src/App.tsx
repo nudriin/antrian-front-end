@@ -3,7 +3,7 @@ import "./App.css"
 import Queue from "./pages/public/Queue"
 import Home from "./pages/public/Home"
 import AddQueue from "./pages/user/AddQueue"
-import LocketDashboard from "./pages/public/LocketDashboard"
+import LocketPaud from "./pages/locket/LocketPaud"
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/queue" element={<Queue />} />
         <Route path="/queue/add" element={<AddQueue />} />
-        <Route path="/queue/locket" element={<LocketDashboard />} />
+        <Route path="/locket/paud" element={<LocketPaud />} />
       </Routes>
     </BrowserRouter>
   )
