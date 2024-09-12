@@ -7,18 +7,36 @@ import {
     TbBoxMultiple4,
     TbBoxMultiple5,
     TbBoxMultiple6,
+    TbIcons,
 } from "react-icons/tb"
 
 export default function LocketSideBar() {
     const activeLink = "bg-darks2 text-purples"
     const nonActiveLink = ""
     return (
-        <div className="flex flex-col justify-between gap-6 text-darks2">
+        <div className="flex flex-col justify-between gap-4 text-darks2">
             <NavLink to="/">
                 <div className="flex items-center justify-center mt-4">
                     <img className="h-24" src={tutWuriImg} alt="" />
                 </div>
             </NavLink>
+            <div className="text-left">
+                <ul className="ml-2 mr-2">
+                    <NavLink
+                        to="/locket/welcome"
+                        className={({ isActive }) =>
+                            isActive ? activeLink : nonActiveLink
+                        }
+                    >
+                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
+                            <li>
+                                <TbIcons size={25} />
+                            </li>
+                            <li className="">Welcome</li>
+                        </div>
+                    </NavLink>
+                </ul>
+            </div>
             <div className="text-left">
                 <ul className="ml-2 mr-2">
                     <NavLink
