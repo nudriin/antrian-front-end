@@ -11,6 +11,7 @@ import Welcome from './pages/locket/Welcome';
 import Login from './pages/public/Login';
 import LocketTk from './pages/locket/LocketTk';
 import LocketSd from './pages/locket/LocketSd';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
     return (
@@ -18,7 +19,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/queue" element={<Queue />} />
-                <Route path="/queue/add" element={<AddQueue />} />
                 <Route path="/locket/welcome" element={<Welcome />} />
                 <Route path="/locket/paud" element={<LocketPaud />} />
                 <Route path="/locket/tk" element={<LocketTk />} />
@@ -27,6 +27,9 @@ function App() {
                 <Route path="/locket/sma" element={<LocketSma />} />
                 <Route path="/locket/perguruan" element={<LocketPt />} />
                 <Route path="/login" element={<Login />} />
+                <Route element={<PrivateRoute />}>
+                    <Route path="/queue/add" element={<AddQueue />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
