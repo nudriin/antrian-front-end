@@ -1,15 +1,16 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import "./App.css"
-import Queue from "./pages/public/Queue"
-import Home from "./pages/public/Home"
-import AddQueue from "./pages/user/AddQueue"
-import LocketPaud from "./pages/locket/LocketPaud"
-import LocketTk from "./pages/locket/LocketTK"
-import LocketSd from "./pages/locket/LocketSD"
-import LocketSmp from "./pages/locket/LocketSmp"
-import LocketSma from "./pages/locket/LocketSma"
-import LocketPt from "./pages/locket/LocketPt"
-import Welcome from "./pages/locket/Welcome"
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
+import Queue from './pages/public/Queue';
+import Home from './pages/public/Home';
+import AddQueue from './pages/user/AddQueue';
+import LocketPaud from './pages/locket/LocketPaud';
+import LocketSmp from './pages/locket/LocketSmp';
+import LocketSma from './pages/locket/LocketSma';
+import LocketPt from './pages/locket/LocketPt';
+import Welcome from './pages/locket/Welcome';
+import Login from './pages/public/Login';
+import LocketTk from './pages/locket/LocketTk';
+import LocketSd from './pages/locket/LocketSd';
 
 function App() {
     return (
@@ -25,9 +26,10 @@ function App() {
                 <Route path="/locket/smp" element={<LocketSmp />} />
                 <Route path="/locket/sma" element={<LocketSma />} />
                 <Route path="/locket/perguruan" element={<LocketPt />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
         </BrowserRouter>
-    )
+    );
 }
 
-export default App
+export default App;
