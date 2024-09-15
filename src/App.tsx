@@ -17,7 +17,6 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
                 <Route path="/queue" element={<Queue />} />
                 <Route path="/locket/welcome" element={<Welcome />} />
                 <Route path="/locket/paud" element={<LocketPaud />} />
@@ -28,6 +27,7 @@ function App() {
                 <Route path="/locket/perguruan" element={<LocketPt />} />
                 <Route path="/login" element={<Login />} />
                 <Route element={<PrivateRoute />}>
+                    <Route path="/" element={<Home />} />
                     <Route path="/queue/add" element={<AddQueue />} />
                 </Route>
             </Routes>

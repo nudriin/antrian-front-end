@@ -63,8 +63,8 @@ export default function Login() {
     };
     return (
         <section>
-            <div className="w-1/3 mx-auto">
-                <div className="rounded-xl bg-white p-6 border-2 border-darks2 shadow-box">
+            <div className="min-h-screen flex justify-center items-center">
+                <div className="w-1/3 rounded-xl bg-white p-6 border-2 border-darks2 shadow-box">
                     <h1 className="text-5xl font-semibold text-left my-2">
                         Login
                     </h1>
@@ -109,6 +109,8 @@ export default function Login() {
                             isLoading={loading}
                             onClick={handleSubmit}
                             marginTop={5}
+                            backgroundColor="purples"
+                            color="white"
                         >
                             Login
                         </Button>

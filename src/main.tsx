@@ -2,12 +2,15 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { CookiesProvider } from 'react-cookie';
+import blue from './theme/blue.ts';
+
+const theme = extendTheme(blue);
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
             <CookiesProvider defaultSetOptions={{ path: '/' }}>
                 <App />
             </CookiesProvider>
