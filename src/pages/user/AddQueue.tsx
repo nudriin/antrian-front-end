@@ -8,6 +8,14 @@ import { QueueTotal } from '../../types/queue';
 import { useCookies } from 'react-cookie';
 import { socket } from '../../socket';
 import { Button } from '@chakra-ui/react';
+
+const colorClasses = [
+    '#6256CA', // purples
+    '#F86767', // oranges
+    '#12BC95', // greens
+    '#47C9D7', // teals
+];
+
 export default function AddQueue() {
     const [loading, setLoading] = useState(false);
     const [locket, setLocket] = useState<Locket[]>([]);
@@ -158,63 +166,50 @@ export default function AddQueue() {
                     </div>
                     <img className="h-48" src={tutWuriImg} alt="" />
                 </div>
-                {locket.map((value: Locket, index: number) =>
-                    index > 3 ? (
-                        <div
-                            key={index}
-                            className="col-span-2 bg-white rounded-xl text-purples shadow-box border-2 border-darks2"
+                {locket.map((value: Locket, index: number) => (
+                    <div
+                        key={index}
+                        className={`${
+                            index > 3 ? 'col-span-2' : 'col-span-1'
+                        } bg-white rounded-xl text-darks2 shadow-box border-2 border-darks2`}
+                    >
+                        <h3
+                            className={`text-2xl my-3 uppercase font-semibold ${`text-[${
+                                colorClasses[index % colorClasses.length]
+                            }]`}`}
                         >
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Antrian
-                            </h3>
-                            <h1 className="text-6xl my-6 font-bold">
-                                {queues.get(value.id)?.total ?? '-'}
-                            </h1>
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Loket {value.name}
-                            </h3>
-                            <Button
-                                loadingText="Tambah Antrian"
-                                isLoading={loading}
-                                onClick={addQueue}
-                                marginBlock={5}
-                                backgroundColor="purples"
-                                color="white"
-                                value={value.id}
-                                leftIcon={<IoMdAddCircle size={25} />}
-                            >
-                                Tambah Antrian
-                            </Button>
-                        </div>
-                    ) : (
-                        <div
-                            key={index}
-                            className="col-span-1 bg-white rounded-xl text-purples shadow-box border-2 border-darks2"
+                            Antrian
+                        </h3>
+                        <h1
+                            className={`text-6xl my-6 font-bold ${`text-[${
+                                colorClasses[index % colorClasses.length]
+                            }]`}`}
                         >
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Antrian
-                            </h3>
-                            <h1 className="text-6xl my-6 font-bold">
-                                {queues.get(value.id)?.total ?? '-'}
-                            </h1>
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Loket {value.name}
-                            </h3>
-                            <Button
-                                loadingText="Tambah Antrian"
-                                isLoading={loading}
-                                onClick={addQueue}
-                                marginBlock={5}
-                                backgroundColor="purples"
-                                color="white"
-                                value={value.id}
-                                leftIcon={<IoMdAddCircle size={25} />}
-                            >
-                                Tambah Antrian
-                            </Button>
-                        </div>
-                    )
-                )}
+                            {queues.get(value.id)?.total ?? '-'}
+                        </h1>
+                        <h3
+                            className={`text-2xl my-3 uppercase font-semibold ${`text-[${
+                                colorClasses[index % colorClasses.length]
+                            }]`}`}
+                        >
+                            Loket {value.name}
+                        </h3>
+                        <Button
+                            loadingText="Tambah Antrian"
+                            isLoading={loading}
+                            onClick={addQueue}
+                            marginBlock={5}
+                            backgroundColor={`${
+                                colorClasses[index % colorClasses.length]
+                            }`}
+                            color="white"
+                            value={value.id}
+                            leftIcon={<IoMdAddCircle size={25} />}
+                        >
+                            Tambah Antrian
+                        </Button>
+                    </div>
+                ))}
             </div>
         </section>
     );

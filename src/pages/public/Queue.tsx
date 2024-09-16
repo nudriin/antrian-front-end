@@ -6,6 +6,13 @@ import 'moment/locale/id';
 import { QueueTotal } from '../../types/queue';
 import { socket } from '../../socket';
 
+const colorClasses = [
+    'text-[#6256CA]', // purples
+    'text-[#F86767]', // oranges
+    'text-[#12BC95]', // greens
+    'text-[#47C9D7]', // teals
+];
+
 export default function Queue() {
     const [, setLoading] = useState(false);
     const [locket, setLocket] = useState<Locket[]>([]);
@@ -118,15 +125,27 @@ export default function Queue() {
                         key={index}
                         className={`${
                             index > 3 ? 'col-span-2' : 'col-span-1'
-                        } bg-white rounded-xl text-purples shadow-box border-2 border-darks2`}
+                        } bg-white rounded-xl text-darks2 shadow-box border-2 border-darks2`}
                     >
-                        <h3 className="text-2xl my-3 uppercase font-semibold">
+                        <h3
+                            className={`text-2xl my-3 uppercase font-semibold ${
+                                colorClasses[index % colorClasses.length]
+                            }`}
+                        >
                             Antrian
                         </h3>
-                        <h1 className="text-6xl my-6 font-bold">
+                        <h1
+                            className={`text-6xl my-6 font-bold ${
+                                colorClasses[index % colorClasses.length]
+                            }`}
+                        >
                             {queues.get(value.id)?.total ?? '-'}
                         </h1>
-                        <h3 className="text-2xl my-3 uppercase font-semibold">
+                        <h3
+                            className={`text-2xl my-3 uppercase font-semibold ${
+                                colorClasses[index % colorClasses.length]
+                            }`}
+                        >
                             Loket {value.name}
                         </h3>
                     </div>
