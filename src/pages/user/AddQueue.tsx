@@ -6,8 +6,10 @@ import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
 import { QueueTotal } from '../../types/queue';
 import { useCookies } from 'react-cookie';
+import { socket } from '../../socket';
+import { Button } from '@chakra-ui/react';
 export default function AddQueue() {
-    const [, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [locket, setLocket] = useState<Locket[]>([]);
     const [dates, setDates] = useState(moment());
     const [queues, setQueues] = useState<Map<number, QueueTotal>>(new Map());
@@ -15,35 +17,34 @@ export default function AddQueue() {
 
     useEffect(() => {
         moment.locale('id');
-        setInterval(() => setDates(moment()), 60000); // update per 1 minutes
-        const getAllLokcet = async () => {
-            try {
-                setLoading(true);
-                const response = await fetch('/api/locket', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+        const interval = setInterval(() => setDates(moment()), 60000); // update per 1 minute
 
-                const body = await response.json();
+        return () => clearInterval(interval);
+    }, []);
 
-                if (!body.errors) {
-                    setLoading(false);
-                    console.log(body.data);
+    //
+    const getAllLocket = useCallback(async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('/api/locket', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                    setLocket(body.data);
-                } else {
-                    setLoading(false);
-                    throw new Error(body.errors);
-                }
-            } catch (error) {
-                setLoading(false);
-                console.log(error);
+            const body = await response.json();
+
+            if (!body.errors) {
+                setLocket(body.data);
+            } else {
+                throw new Error(body.errors);
             }
-        };
-
-        getAllLokcet();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
     const getTotalQueue = useCallback(async () => {
@@ -83,12 +84,38 @@ export default function AddQueue() {
     }, [locket]);
 
     useEffect(() => {
+        getAllLocket();
+    }, [getAllLocket]);
+
+    useEffect(() => {
         getTotalQueue();
+    }, [getTotalQueue]);
+
+    useEffect(() => {
+        setLoading(true);
+
+        socket.connect();
+
+        socket.on('connect', () => {
+            console.log(socket.id); // an alphanumeric id...
+        });
+
+        socket.on('total', () => {
+            getTotalQueue();
+        });
+
+        setLoading(false);
+        return () => {
+            socket.disconnect();
+        };
     }, [getTotalQueue]);
 
     const addQueue = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        socket.emit('getTotalQueue', parseInt(e.currentTarget.value));
+
         try {
+            setLoading(true);
             const token = cookies.auth;
             const response = await fetch('/api/queue', {
                 method: 'POST',
@@ -105,11 +132,15 @@ export default function AddQueue() {
 
             console.log(body.data);
             if (!body.errors) {
+                setLoading(true);
                 await getTotalQueue();
+                setLoading(false);
             } else {
+                setLoading(false);
                 throw new Error(body.errors);
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
         }
     };
@@ -142,13 +173,18 @@ export default function AddQueue() {
                             <h3 className="text-2xl my-3 uppercase font-semibold">
                                 Loket {value.name}
                             </h3>
-                            <button
-                                className="bg-purples text-white px-4 py-2 rounded-lg my-3 inline-flex gap-2"
+                            <Button
+                                loadingText="Tambah Antrian"
+                                isLoading={loading}
                                 onClick={addQueue}
+                                marginBlock={5}
+                                backgroundColor="purples"
+                                color="white"
                                 value={value.id}
+                                leftIcon={<IoMdAddCircle size={25} />}
                             >
-                                Tambah Antrian <IoMdAddCircle size={25} />
-                            </button>
+                                Tambah Antrian
+                            </Button>
                         </div>
                     ) : (
                         <div
@@ -164,13 +200,18 @@ export default function AddQueue() {
                             <h3 className="text-2xl my-3 uppercase font-semibold">
                                 Loket {value.name}
                             </h3>
-                            <button
+                            <Button
+                                loadingText="Tambah Antrian"
+                                isLoading={loading}
                                 onClick={addQueue}
+                                marginBlock={5}
+                                backgroundColor="purples"
+                                color="white"
                                 value={value.id}
-                                className="bg-purples text-white px-4 py-2 rounded-lg my-3 inline-flex gap-2"
+                                leftIcon={<IoMdAddCircle size={25} />}
                             >
-                                Tambah Antrian <IoMdAddCircle size={25} />
-                            </button>
+                                Tambah Antrian
+                            </Button>
                         </div>
                     )
                 )}

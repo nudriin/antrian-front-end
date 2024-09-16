@@ -1,9 +1,10 @@
-import tutWuriImg from '../../assets/images/web/tut_wuri.png';
 import { useCallback, useEffect, useState } from 'react';
+import tutWuriImg from '../../assets/images/web/tut_wuri.png';
 import { Locket } from '../../types/locket';
 import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
 import { QueueTotal } from '../../types/queue';
+import { socket } from '../../socket';
 
 export default function Queue() {
     const [, setLoading] = useState(false);
@@ -13,39 +14,37 @@ export default function Queue() {
 
     useEffect(() => {
         moment.locale('id');
-        setInterval(() => setDates(moment()), 60000); // update per 1 minutes
-        const getAllLokcet = async () => {
-            try {
-                setLoading(true);
-                const response = await fetch('/api/locket', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+        const interval = setInterval(() => setDates(moment()), 60000); // update per 1 minute
 
-                const body = await response.json();
+        return () => clearInterval(interval);
+    }, []);
 
-                if (!body.errors) {
-                    setLoading(false);
-                    console.log(body.data);
+    const getAllLocket = useCallback(async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('/api/locket', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                    setLocket(body.data);
-                } else {
-                    setLoading(false);
-                    throw new Error(body.errors);
-                }
-            } catch (error) {
-                setLoading(false);
-                console.log(error);
+            const body = await response.json();
+
+            if (!body.errors) {
+                setLocket(body.data);
+            } else {
+                throw new Error(body.errors);
             }
-        };
-
-        getAllLokcet();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
     const getTotalQueue = useCallback(async () => {
-        if (locket.length === 0) return; // Exit if no locket data
+        if (locket.length === 0) return;
 
         try {
             setLoading(true);
@@ -73,16 +72,32 @@ export default function Queue() {
             });
 
             setQueues(queueMap);
-            setLoading(false);
         } catch (error) {
-            setLoading(false);
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     }, [locket]);
 
     useEffect(() => {
+        getAllLocket();
+    }, [getAllLocket]);
+
+    useEffect(() => {
         getTotalQueue();
     }, [getTotalQueue]);
+
+    useEffect(() => {
+        socket.connect();
+
+        socket.on('total', () => {
+            getTotalQueue();
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, [getTotalQueue, locket]);
 
     return (
         <section className="min-h-full">
@@ -98,39 +113,24 @@ export default function Queue() {
                     </div>
                     <img className="h-48" src={tutWuriImg} alt="" />
                 </div>
-                {locket.map((value: Locket, index: number) =>
-                    index > 3 ? (
-                        <div
-                            key={index}
-                            className="col-span-2 bg-white rounded-xl text-purples shadow-box border-2 border-darks2"
-                        >
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Antrian
-                            </h3>
-                            <h1 className="text-6xl my-6 font-bold">
-                                {queues.get(value.id)?.total ?? '-'}
-                            </h1>
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Loket {value.name}
-                            </h3>
-                        </div>
-                    ) : (
-                        <div
-                            key={index}
-                            className="col-span-1 bg-white rounded-xl text-purples shadow-box border-2 border-darks2"
-                        >
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Antrian
-                            </h3>
-                            <h1 className="text-6xl my-6 font-bold">
-                                {queues.get(value.id)?.total ?? '-'}
-                            </h1>
-                            <h3 className="text-2xl my-3 uppercase font-semibold">
-                                Loket {value.name}
-                            </h3>
-                        </div>
-                    )
-                )}
+                {locket.map((value: Locket, index: number) => (
+                    <div
+                        key={index}
+                        className={`${
+                            index > 3 ? 'col-span-2' : 'col-span-1'
+                        } bg-white rounded-xl text-purples shadow-box border-2 border-darks2`}
+                    >
+                        <h3 className="text-2xl my-3 uppercase font-semibold">
+                            Antrian
+                        </h3>
+                        <h1 className="text-6xl my-6 font-bold">
+                            {queues.get(value.id)?.total ?? '-'}
+                        </h1>
+                        <h3 className="text-2xl my-3 uppercase font-semibold">
+                            Loket {value.name}
+                        </h3>
+                    </div>
+                ))}
             </div>
         </section>
     );
