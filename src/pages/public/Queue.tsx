@@ -5,13 +5,7 @@ import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
 import { QueueTotal } from '../../types/queue';
 import { socket } from '../../socket';
-
-const colorClasses = [
-    'text-[#6256CA]', // purples
-    'text-[#F86767]', // oranges
-    'text-[#12BC95]', // greens
-    'text-[#47C9D7]', // teals
-];
+import { colorClasses, locketCodes } from '../../constants/constant';
 
 export default function Queue() {
     const [, setLoading] = useState(false);
@@ -23,7 +17,9 @@ export default function Queue() {
         moment.locale('id');
         const interval = setInterval(() => setDates(moment()), 60000); // update per 1 minute
 
-        return () => clearInterval(interval);
+        return function cleanup() {
+            clearInterval(interval);
+        };
     }, []);
 
     const getAllLocket = useCallback(async () => {
@@ -120,36 +116,44 @@ export default function Queue() {
                     </div>
                     <img className="h-48" src={tutWuriImg} alt="" />
                 </div>
-                {locket.map((value: Locket, index: number) => (
-                    <div
-                        key={index}
-                        className={`${
-                            index > 3 ? 'col-span-2' : 'col-span-1'
-                        } bg-white rounded-xl text-darks2 shadow-box border-2 border-darks2`}
-                    >
-                        <h3
-                            className={`text-2xl my-3 uppercase font-semibold ${
-                                colorClasses[index % colorClasses.length]
-                            }`}
+                {locket.map((value: Locket, index: number) => {
+                    const totalQueue = queues.get(value.id)?.total ?? 0;
+                    const locketCode = locketCodes[index % locketCodes.length];
+                    const total = `${locketCode}${String(totalQueue).padStart(
+                        2,
+                        '0'
+                    )}`;
+                    return (
+                        <div
+                            key={index}
+                            className={`${
+                                index > 3 ? 'col-span-2' : 'col-span-1'
+                            } bg-white rounded-xl text-darks2 shadow-box border-2 border-darks2`}
                         >
-                            Antrian
-                        </h3>
-                        <h1
-                            className={`text-6xl my-6 font-bold ${
-                                colorClasses[index % colorClasses.length]
-                            }`}
-                        >
-                            {queues.get(value.id)?.total ?? '-'}
-                        </h1>
-                        <h3
-                            className={`text-2xl my-3 uppercase font-semibold ${
-                                colorClasses[index % colorClasses.length]
-                            }`}
-                        >
-                            Loket {value.name}
-                        </h3>
-                    </div>
-                ))}
+                            <h3
+                                className={`text-2xl my-3 uppercase font-semibold text-[${
+                                    colorClasses[index % colorClasses.length]
+                                }]`}
+                            >
+                                Antrian
+                            </h3>
+                            <h1
+                                className={`text-6xl my-6 font-bold text-[${
+                                    colorClasses[index % colorClasses.length]
+                                }]`}
+                            >
+                                {total}
+                            </h1>
+                            <h3
+                                className={`text-2xl my-3 uppercase font-semibold text-[${
+                                    colorClasses[index % colorClasses.length]
+                                }]`}
+                            >
+                                Loket {value.name}
+                            </h3>
+                        </div>
+                    );
+                })}
             </div>
         </section>
     );
