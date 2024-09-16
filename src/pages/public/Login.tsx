@@ -55,9 +55,11 @@ export default function Login() {
 
                 navigate('/queue/add');
             } else {
+                setLoading(false);
                 throw new Error(data.errors);
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
         }
     };
@@ -111,6 +113,7 @@ export default function Login() {
                             marginTop={5}
                             backgroundColor="purples"
                             color="white"
+                            width="100%"
                         >
                             Login
                         </Button>
