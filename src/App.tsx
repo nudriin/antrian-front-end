@@ -12,6 +12,7 @@ import Login from './pages/public/Login';
 import LocketTk from './pages/locket/LocketTk';
 import LocketSd from './pages/locket/LocketSd';
 import PrivateRoute from './components/PrivateRoute';
+import SignRoute from './components/SignRoute';
 
 function App() {
     return (
@@ -25,7 +26,9 @@ function App() {
                 <Route path="/locket/smp" element={<LocketSmp />} />
                 <Route path="/locket/umpeg" element={<LocketUmpeg />} />
                 <Route path="/locket/keuangan" element={<LocketKeuangan />} />
-                <Route path="/login" element={<Login />} />
+                <Route element={<SignRoute />}>
+                    <Route path="/login" element={<Login />} />
+                </Route>
                 <Route element={<PrivateRoute />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/queue/add" element={<AddQueue />} />
