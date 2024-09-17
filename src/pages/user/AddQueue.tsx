@@ -8,8 +8,8 @@ import { useCookies } from 'react-cookie';
 import { socket } from '../../socket';
 import { Button } from '@chakra-ui/react';
 import { colorClasses, locketCodes } from '../../constants/constant';
-import PrintQueue from '../../components/PrintQueue';
 import { QueueAggregateResponse } from '../../types/queue';
+import printQueue from '../../helper/printQueue';
 
 export default function AddQueue() {
     const [loading, setLoading] = useState(false);
@@ -213,7 +213,7 @@ export default function AddQueue() {
                                     e: React.MouseEvent<HTMLButtonElement>
                                 ) => {
                                     addQueue(e);
-                                    PrintQueue(totalPrint, value.name);
+                                    printQueue(totalPrint, value.name);
                                 }}
                                 marginBlock={5}
                                 backgroundColor={`${

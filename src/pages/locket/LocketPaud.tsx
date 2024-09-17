@@ -18,6 +18,7 @@ import { socket } from '../../socket';
 import { Queue, QueueAggregateResponse } from '../../types/queue';
 import useLocketByName from '../../hooks/useLocketByName';
 import { Locket } from '../../types/locket';
+import textToSpeech from '../../helper/textToSpeech';
 
 export default function LocketPaud() {
     const total = useTotalQueue('paud');
@@ -175,7 +176,20 @@ export default function LocketPaud() {
                                             </td>
                                             <td className="flex items-center justify-center p-2">
                                                 <button
-                                                    onClick={handleCall}
+                                                    onClick={(
+                                                        e: React.MouseEvent<HTMLButtonElement>
+                                                    ) => {
+                                                        const text = `Nomor antrian, A,${String(
+                                                            value.queue_number
+                                                        ).padStart(
+                                                            2,
+                                                            '0'
+                                                        )}, silahkan menuju loket, ${
+                                                            locket?.name
+                                                        }`;
+                                                        textToSpeech(text);
+                                                        handleCall(e);
+                                                    }}
                                                     value={value.id}
                                                 >
                                                     <IoIosMegaphone

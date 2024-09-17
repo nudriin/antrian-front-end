@@ -1,7 +1,7 @@
 import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
 
-export default function PrintQueue(total: string, locketName: string) {
+export default function printQueue(total: string, locketName: string) {
     moment.locale('id');
     const today = moment().format('LLLL');
 
