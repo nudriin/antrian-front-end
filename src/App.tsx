@@ -21,7 +21,7 @@ function App() {
                 <Route path="/queue" element={<Queue />} />
                 <Route path="/locket/welcome" element={<Welcome />} />
                 <Route path="/locket/paud" element={<LocketPaud />} />
-                <Route path="/locket/tk" element={<LocketTk />} />
+                <Route path="/locket/ptk" element={<LocketTk />} />
                 <Route path="/locket/sd" element={<LocketSd />} />
                 <Route path="/locket/smp" element={<LocketSmp />} />
                 <Route path="/locket/umpeg" element={<LocketUmpeg />} />

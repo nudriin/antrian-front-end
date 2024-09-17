@@ -51,9 +51,6 @@ export default function useTotalQueue(name: string) {
                     setLoading(false);
                     throw new Error(body.errors);
                 }
-            } else {
-                setLoading(false);
-                throw new Error();
             }
         } catch (error) {
             console.log(error);

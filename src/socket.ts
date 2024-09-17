@@ -1,5 +1,6 @@
 import { io } from 'socket.io-client';
 
-export const socket = io('ws://localhost:5000', {
+const url = import.meta.env.VITE_ENDPOINT_DEV;
+export const socket = io(url, {
     transports: ['websocket', 'polling'],
 });
