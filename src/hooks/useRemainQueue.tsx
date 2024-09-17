@@ -32,7 +32,7 @@ export default function useRemainQueue(name: string) {
         }
     }, [name]);
 
-    const getTotalQueue = useCallback(async () => {
+    const getRemainQueue = useCallback(async () => {
         try {
             if (!loading && locket?.id) {
                 const response = await fetch(
@@ -67,20 +67,20 @@ export default function useRemainQueue(name: string) {
     }, [getLocketName]);
 
     useEffect(() => {
-        getTotalQueue();
-    }, [getTotalQueue]);
+        getRemainQueue();
+    }, [getRemainQueue]);
 
     useEffect(() => {
         socket.connect();
 
-        socket.on('remain', () => {
-            getTotalQueue();
+        socket.on('remainQueue', (data) => {
+            setRemain(data);
         });
 
         return () => {
-            socket.off('remain');
+            socket.off('remainQueue');
         };
-    }, [getTotalQueue]);
+    }, [getRemainQueue]);
 
     return remain;
 }
