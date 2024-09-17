@@ -118,6 +118,8 @@ export default function AddQueue() {
     const addQueue = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         socket.emit('getTotalQueue', parseInt(e.currentTarget.value));
+        socket.emit('getRemainQueue', parseInt(e.currentTarget.value));
+        socket.emit('getNextQueue', parseInt(e.currentTarget.value));
 
         try {
             setLoading(true);

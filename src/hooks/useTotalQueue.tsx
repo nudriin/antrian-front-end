@@ -4,7 +4,7 @@ import { socket } from '../socket';
 
 export default function useTotalQueue(name: string) {
     const [locket, setLocket] = useState<Locket>();
-    const [total, setTotal] = useState<number>();
+    const [total, setTotal] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
 
     const getLocketName = useCallback(async () => {
@@ -75,7 +75,7 @@ export default function useTotalQueue(name: string) {
         });
 
         return () => {
-            socket.off('total');
+            socket.disconnect();
         };
     }, [getTotalQueue]);
 

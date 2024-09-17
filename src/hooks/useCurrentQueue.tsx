@@ -4,7 +4,7 @@ import { socket } from '../socket';
 
 export default function useCurrentQueue(name: string) {
     const [locket, setLocket] = useState<Locket>();
-    const [current, setCurrent] = useState<number>();
+    const [current, setCurrent] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
 
     const getLocketName = useCallback(async () => {
@@ -73,12 +73,12 @@ export default function useCurrentQueue(name: string) {
     useEffect(() => {
         socket.connect();
 
-        socket.on('currentQueue', () => {
-            getCurrentQueue();
+        socket.on('currentQueue', (data) => {
+            setCurrent(data);
         });
 
         return () => {
-            socket.off('currentQueue');
+            socket.disconnect();
         };
     }, [getCurrentQueue]);
 

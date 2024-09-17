@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Queue } from '../types/queue';
 import { Locket } from '../types/locket';
 import { socket } from '../socket';
 
-export default function useRemainQueue(name: string) {
+export default function useAllQueueInLocket(name: string) {
     const [locket, setLocket] = useState<Locket>();
-    const [remain, setRemain] = useState<number>(0);
+    const [queues, setQueues] = useState<Queue[]>();
     const [loading, setLoading] = useState<boolean>(false);
 
     const getLocketName = useCallback(async () => {
@@ -32,32 +33,28 @@ export default function useRemainQueue(name: string) {
         }
     }, [name]);
 
-    const getRemainQueue = useCallback(async () => {
+    const getAllQueue = useCallback(async () => {
         try {
             if (!loading && locket?.id) {
-                const response = await fetch(
-                    `/api/queue/${locket?.id}/remain`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
+                const response = await fetch(`/api/queue/${locket?.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
                 const body = await response.json();
+
                 if (!body.errors) {
-                    setRemain(body.data.queueRemainder);
+                    setQueues(() => body.data);
                     setLoading(false);
                 } else {
                     setLoading(false);
                     throw new Error(body.errors);
                 }
-            } else {
-                setLoading(false);
-                return;
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
         }
     }, [loading, locket]);
@@ -67,14 +64,14 @@ export default function useRemainQueue(name: string) {
     }, [getLocketName]);
 
     useEffect(() => {
-        getRemainQueue();
-    }, [getRemainQueue]);
+        getAllQueue();
+    }, [getAllQueue]);
 
     useEffect(() => {
         socket.connect();
 
-        socket.on('remainQueue', (data) => {
-            setRemain(data);
+        socket.on('allQueue', (data: Queue[] | []) => {
+            setQueues(data);
         });
 
         return () => {
@@ -82,5 +79,5 @@ export default function useRemainQueue(name: string) {
         };
     }, []);
 
-    return remain;
+    return queues;
 }
