@@ -1,11 +1,11 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from 'react-router-dom';
 import {
     IoIosContacts,
     IoIosArrowDroprightCircle,
     IoIosMic,
     IoMdAddCircle,
-} from "react-icons/io"
-import tutWuriImg from "../../assets/images/web/tut_wuri.png"
+} from 'react-icons/io';
+import tutWuriImg from '../../assets/images/web/tut_wuri.png';
 
 export default function Home() {
     return (
@@ -55,7 +55,7 @@ export default function Home() {
                         Halaman Loket digunakan petugas loket untuk memanggil
                         antrian pengunjung.
                     </p>
-                    <NavLink to="/locket/welcome">
+                    <NavLink to="/locket">
                         <button className="flex items-center gap-3 px-4 py-2 my-3 text-white rounded-lg bg-purples">
                             Tampilkan <IoIosArrowDroprightCircle size={25} />
                         </button>
@@ -63,5 +63,5 @@ export default function Home() {
                 </div>
             </div>
         </section>
-    )
+    );
 }

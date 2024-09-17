@@ -5,6 +5,7 @@ import {
     FormHelperText,
     Input,
     Button,
+    useToast,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -15,6 +16,7 @@ export default function Login() {
     const [, setCookie] = useCookies(['auth']);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
+    const toast = useToast();
 
     const navigate = useNavigate();
 
@@ -39,11 +41,6 @@ export default function Login() {
 
             const data = await response.json();
 
-            if (data.errors) {
-                setLoading(false);
-                throw new Error(data.errors);
-            }
-
             if (!data.errors) {
                 console.log(data.data.token);
                 setLoading(false);
@@ -55,8 +52,18 @@ export default function Login() {
                     sameSite: 'strict', // Perlindungan terhadap CSRF
                 });
 
-                navigate('/queue/add');
+                toast({
+                    title: 'Sukses Login',
+                    description: 'Terimakasih!',
+                    status: 'success',
+                });
+                navigate('/');
             } else {
+                toast({
+                    title: 'Gagal',
+                    description: `${data.errors}`,
+                    status: 'error',
+                });
                 setLoading(false);
                 throw new Error(data.errors);
             }
@@ -75,51 +82,54 @@ export default function Login() {
                     <p className="text-left mb-6">
                         Silahkan masukan data anda dengan benar
                     </p>
-                    <FormControl className="text-darks-2">
-                        <FormLabel fontWeight="bold">Email</FormLabel>
-                        <Input
-                            id="email"
-                            type="email"
-                            bgColor="white"
-                            color="GrayText"
-                            borderColor="black"
-                            onChange={handleChange}
-                        />
-                        <FormHelperText textAlign="left">
-                            Mohon masukan email anda!
-                        </FormHelperText>
-                        <FormErrorMessage textAlign="left">
-                            Email is required.
-                        </FormErrorMessage>
-                        <FormLabel fontWeight="bold" marginTop={5}>
-                            Password
-                        </FormLabel>
-                        <Input
-                            id="password"
-                            type="password"
-                            bgColor="white"
-                            color="GrayText"
-                            borderColor="black"
-                            onChange={handleChange}
-                        />
-                        <FormHelperText textAlign="left">
-                            Mohon masukan password anda!
-                        </FormHelperText>
-                        <FormErrorMessage textAlign="left">
-                            Email is required.
-                        </FormErrorMessage>
-                        <Button
-                            loadingText="Login"
-                            isLoading={loading}
-                            onClick={handleSubmit}
-                            marginTop={5}
-                            backgroundColor="purples"
-                            color="white"
-                            width="100%"
-                        >
-                            Login
-                        </Button>
-                    </FormControl>
+                    <form>
+                        <FormControl className="text-darks-2" isRequired>
+                            <FormLabel fontWeight="bold">Email</FormLabel>
+                            <Input
+                                id="email"
+                                type="email"
+                                bgColor="white"
+                                color="GrayText"
+                                borderColor="black"
+                                onChange={handleChange}
+                            />
+                            <FormHelperText textAlign="left">
+                                Mohon masukan email anda!
+                            </FormHelperText>
+                            <FormErrorMessage textAlign="left">
+                                Email is required.
+                            </FormErrorMessage>
+                            <FormLabel fontWeight="bold" marginTop={5}>
+                                Password
+                            </FormLabel>
+                            <Input
+                                id="password"
+                                type="password"
+                                bgColor="white"
+                                color="GrayText"
+                                borderColor="black"
+                                onChange={handleChange}
+                            />
+                            <FormHelperText textAlign="left">
+                                Mohon masukan password anda!
+                            </FormHelperText>
+                            <FormErrorMessage textAlign="left">
+                                Email is required.
+                            </FormErrorMessage>
+                            <Button
+                                loadingText="Login"
+                                isLoading={loading}
+                                onClick={handleSubmit}
+                                marginTop={5}
+                                backgroundColor="purples"
+                                color="white"
+                                width="100%"
+                                type="submit"
+                            >
+                                Login
+                            </Button>
+                        </FormControl>
+                    </form>
                 </div>
             </div>
         </section>

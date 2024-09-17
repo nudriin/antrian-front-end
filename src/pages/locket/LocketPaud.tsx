@@ -19,6 +19,7 @@ import { Queue, QueueAggregateResponse } from '../../types/queue';
 import useLocketByName from '../../hooks/useLocketByName';
 import { Locket } from '../../types/locket';
 import textToSpeech from '../../helper/textToSpeech';
+import { useToast } from '@chakra-ui/react';
 
 export default function LocketPaud() {
     const total = useTotalQueue('paud');
@@ -29,6 +30,7 @@ export default function LocketPaud() {
     const initalLocket = useLocketByName('paud');
     const [cookie] = useCookies(['auth']);
     const token = cookie.auth;
+    const toast = useToast();
 
     const [remain, setRemain] = useState<QueueAggregateResponse | undefined>(
         undefined
@@ -86,7 +88,17 @@ export default function LocketPaud() {
                 socket.emit('getCurrentQueue', locket?.id);
                 socket.emit('getAllQueue', locket?.id);
                 console.log(body);
+                toast({
+                    title: 'Berhasil',
+                    description: `Antrian A${body.data.queue_number} berhasil di panggil!`,
+                    status: 'success',
+                });
             } else {
+                toast({
+                    title: 'Gagal',
+                    description: `${body.errors}`,
+                    status: 'error',
+                });
                 console.log(body.errors);
                 throw new Error(body.errors);
             }

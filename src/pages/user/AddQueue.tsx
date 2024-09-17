@@ -6,7 +6,7 @@ import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
 import { useCookies } from 'react-cookie';
 import { socket } from '../../socket';
-import { Button } from '@chakra-ui/react';
+import { Button, useToast } from '@chakra-ui/react';
 import { colorClasses, locketCodes } from '../../constants/constant';
 import { QueueAggregateResponse } from '../../types/queue';
 import printQueue from '../../helper/printQueue';
@@ -19,6 +19,7 @@ export default function AddQueue() {
         new Map()
     );
     const [cookies] = useCookies(['auth']);
+    const toast = useToast();
 
     useEffect(() => {
         moment.locale('id');
@@ -144,9 +145,19 @@ export default function AddQueue() {
             if (!body.errors) {
                 setLoading(true);
                 await getTotalQueue();
+                toast({
+                    title: 'Berhasil',
+                    description: `Antrian berhasil di ambil`,
+                    status: 'success',
+                });
                 setLoading(false);
             } else {
                 setLoading(false);
+                toast({
+                    title: 'Gagal',
+                    description: `Terjadi error ${body.errors}`,
+                    status: 'error',
+                });
                 throw new Error(body.errors);
             }
         } catch (error) {

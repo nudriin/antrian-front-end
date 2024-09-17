@@ -10,7 +10,17 @@ const theme = extendTheme(blue);
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ChakraProvider theme={theme}>
+        <ChakraProvider
+            theme={theme}
+            toastOptions={{
+                defaultOptions: {
+                    position: 'top',
+                    variant: 'left-accent',
+                    duration: 5000,
+                    isClosable: true,
+                },
+            }}
+        >
             <CookiesProvider defaultSetOptions={{ path: '/' }}>
                 <App />
             </CookiesProvider>
