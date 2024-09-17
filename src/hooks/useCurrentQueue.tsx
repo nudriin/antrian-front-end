@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Locket } from '../types/locket';
 import { socket } from '../socket';
+import { QueueAggregateResponse } from '../types/queue';
 
 export default function useCurrentQueue(name: string) {
     const [locket, setLocket] = useState<Locket>();
-    const [current, setCurrent] = useState<number>(0);
+    const [current, setCurrent] = useState<QueueAggregateResponse>();
     const [loading, setLoading] = useState<boolean>(false);
 
     const getLocketName = useCallback(async () => {
@@ -47,7 +48,7 @@ export default function useCurrentQueue(name: string) {
 
                 const body = await response.json();
                 if (!body.errors) {
-                    setCurrent(body.data.currentQueue);
+                    setCurrent(body.data);
                     setLoading(false);
                 } else {
                     setLoading(false);

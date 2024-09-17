@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Locket } from '../types/locket';
 import { socket } from '../socket';
+import { QueueAggregateResponse } from '../types/queue';
 
 export default function useRemainQueue(name: string) {
     const [locket, setLocket] = useState<Locket>();
-    const [remain, setRemain] = useState<number>(0);
+    const [remain, setRemain] = useState<QueueAggregateResponse>();
     const [loading, setLoading] = useState<boolean>(false);
 
     const getLocketName = useCallback(async () => {
@@ -47,7 +48,7 @@ export default function useRemainQueue(name: string) {
 
                 const body = await response.json();
                 if (!body.errors) {
-                    setRemain(body.data.queueRemainder);
+                    setRemain(body.data);
                     setLoading(false);
                 } else {
                     setLoading(false);

@@ -4,18 +4,20 @@ import { IoMdAddCircle } from 'react-icons/io';
 import { Locket } from '../../types/locket';
 import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
-import { QueueTotal } from '../../types/queue';
 import { useCookies } from 'react-cookie';
 import { socket } from '../../socket';
 import { Button } from '@chakra-ui/react';
 import { colorClasses, locketCodes } from '../../constants/constant';
 import PrintQueue from '../../components/PrintQueue';
+import { QueueAggregateResponse } from '../../types/queue';
 
 export default function AddQueue() {
     const [loading, setLoading] = useState(false);
     const [locket, setLocket] = useState<Locket[]>([]);
     const [dates, setDates] = useState(moment());
-    const [queues, setQueues] = useState<Map<number, QueueTotal>>(new Map());
+    const [queues, setQueues] = useState<Map<number, QueueAggregateResponse>>(
+        new Map()
+    );
     const [cookies] = useCookies(['auth']);
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export default function AddQueue() {
             });
 
             const result = await Promise.all(queuePromises);
-            const queueMap = new Map<number, QueueTotal>();
+            const queueMap = new Map<number, QueueAggregateResponse>();
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             result.forEach((result: any) => {
                 if (!result.errors) {

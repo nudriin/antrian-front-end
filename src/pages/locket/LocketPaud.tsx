@@ -15,7 +15,7 @@ import useAllQueueInLocket from '../../hooks/useAllQueueInLocket';
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { socket } from '../../socket';
-import { Queue } from '../../types/queue';
+import { Queue, QueueAggregateResponse } from '../../types/queue';
 import useLocketByName from '../../hooks/useLocketByName';
 import { Locket } from '../../types/locket';
 
@@ -29,9 +29,15 @@ export default function LocketPaud() {
     const [cookie] = useCookies(['auth']);
     const token = cookie.auth;
 
-    const [remain, setRemain] = useState<number | undefined>(undefined);
-    const [next, setNext] = useState<number | undefined>(undefined);
-    const [current, setCurrent] = useState<number | undefined>(undefined);
+    const [remain, setRemain] = useState<QueueAggregateResponse | undefined>(
+        undefined
+    );
+    const [next, setNext] = useState<QueueAggregateResponse | undefined>(
+        undefined
+    );
+    const [current, setCurrent] = useState<QueueAggregateResponse | undefined>(
+        undefined
+    );
     const [queues, setQueues] = useState<Queue[] | undefined | []>(undefined);
     const [locket, setLocket] = useState<Locket | undefined>(undefined);
 
@@ -104,7 +110,7 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUsers size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">{total}</h1>
+                                <h1 className="text-4xl">{total?.total}</h1>
                                 <p className="text-darks2">Jumlah Antrian</p>
                             </div>
                         </div>
@@ -113,7 +119,9 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUserCheck size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">{current}</h1>
+                                <h1 className="text-4xl">
+                                    {current?.currentQueue}
+                                </h1>
                                 <p className="text-darks2">Antrian Sekarang</p>
                             </div>
                         </div>
@@ -122,7 +130,7 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUserPlus size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">{next}</h1>
+                                <h1 className="text-4xl">{next?.nextQueue}</h1>
                                 <p className="text-darks2">
                                     Antrian Selanjutnya
                                 </p>
@@ -133,7 +141,9 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUser size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">{remain}</h1>
+                                <h1 className="text-4xl">
+                                    {remain?.queueRemainder}
+                                </h1>
                                 <p className="text-darks2">Sisa Antrian</p>
                             </div>
                         </div>

@@ -3,15 +3,17 @@ import tutWuriImg from '../../assets/images/web/tut_wuri.png';
 import { Locket } from '../../types/locket';
 import moment from 'moment/min/moment-with-locales';
 import 'moment/locale/id';
-import { QueueTotal } from '../../types/queue';
 import { socket } from '../../socket';
 import { colorClasses, locketCodes } from '../../constants/constant';
+import { QueueAggregateResponse } from '../../types/queue';
 
 export default function Queue() {
     const [, setLoading] = useState(false);
     const [locket, setLocket] = useState<Locket[]>([]);
     const [dates, setDates] = useState(moment());
-    const [queues, setQueues] = useState<Map<number, QueueTotal>>(new Map());
+    const [queues, setQueues] = useState<Map<number, QueueAggregateResponse>>(
+        new Map()
+    );
 
     useEffect(() => {
         moment.locale('id');
@@ -63,11 +65,11 @@ export default function Queue() {
             });
 
             const result = await Promise.all(queuePromises);
-            const queueMap = new Map<number, QueueTotal>();
+            const queueMap = new Map<number, QueueAggregateResponse>();
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             result.forEach((result: any) => {
                 if (!result.errors) {
-                    queueMap.set(result.data.currentQueue, result.data);
+                    queueMap.set(result.data.locket_id, result.data);
                 } else {
                     console.error(result.errors);
                     throw new Error(result.errors);
@@ -75,6 +77,7 @@ export default function Queue() {
             });
 
             setQueues(queueMap);
+            console.log(queueMap);
         } catch (error) {
             console.log(error);
         } finally {
@@ -93,9 +96,9 @@ export default function Queue() {
     useEffect(() => {
         socket.connect();
 
-        // socket.on('total', () => {
-        //     getCurrentQueue();
-        // });
+        socket.on('currentQueue', () => {
+            getCurrentQueue();
+        });
 
         return () => {
             socket.disconnect();
@@ -117,7 +120,7 @@ export default function Queue() {
                     <img className="h-48" src={tutWuriImg} alt="" />
                 </div>
                 {locket.map((value: Locket, index: number) => {
-                    const totalQueue = queues.get(value.id)?.total ?? 0;
+                    const totalQueue = queues.get(value.id)?.currentQueue ?? 0;
                     const locketCode = locketCodes[index % locketCodes.length];
                     const total = `${locketCode}${String(totalQueue).padStart(
                         2,
