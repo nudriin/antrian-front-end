@@ -13,19 +13,26 @@ import LocketTk from './pages/locket/LocketTk';
 import LocketSd from './pages/locket/LocketSd';
 import PrivateRoute from './components/PrivateRoute';
 import SignRoute from './components/SignRoute';
+import LocketPrivateRoute from './components/LocketPrivateRoute';
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/queue" element={<Queue />} />
-                <Route path="/locket/welcome" element={<Welcome />} />
-                <Route path="/locket/paud" element={<LocketPaud />} />
-                <Route path="/locket/ptk" element={<LocketTk />} />
-                <Route path="/locket/sd" element={<LocketSd />} />
-                <Route path="/locket/smp" element={<LocketSmp />} />
-                <Route path="/locket/umpeg" element={<LocketUmpeg />} />
-                <Route path="/locket/keuangan" element={<LocketKeuangan />} />
+
+                <Route element={<LocketPrivateRoute />}>
+                    <Route path="/locket" element={<Welcome />} />
+                    <Route path="/locket/paud" element={<LocketPaud />} />
+                    <Route path="/locket/ptk" element={<LocketTk />} />
+                    <Route path="/locket/sd" element={<LocketSd />} />
+                    <Route path="/locket/smp" element={<LocketSmp />} />
+                    <Route path="/locket/umpeg" element={<LocketUmpeg />} />
+                    <Route
+                        path="/locket/keuangan"
+                        element={<LocketKeuangan />}
+                    />
+                </Route>
                 <Route element={<SignRoute />}>
                     <Route path="/login" element={<Login />} />
                 </Route>

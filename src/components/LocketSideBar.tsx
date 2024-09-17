@@ -22,12 +22,7 @@ export default function LocketSideBar() {
             </NavLink>
             <div className="text-left">
                 <ul className="ml-2 mr-2">
-                    <NavLink
-                        to="/locket/welcome"
-                        className={({ isActive }) =>
-                            isActive ? activeLink : nonActiveLink
-                        }
-                    >
+                    <NavLink to="/locket">
                         <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
                             <li>
                                 <TbIcons size={25} />
