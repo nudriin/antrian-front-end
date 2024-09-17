@@ -3,3 +3,7 @@ export interface Locket {
     name: string;
     createdAt: Date;
 }
+
+export interface GetLocketByName {
+    name: string;
+}

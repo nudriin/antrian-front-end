@@ -5,8 +5,8 @@ import Home from './pages/public/Home';
 import AddQueue from './pages/user/AddQueue';
 import LocketPaud from './pages/locket/LocketPaud';
 import LocketSmp from './pages/locket/LocketSmp';
-import LocketSma from './pages/locket/LocketSma';
-import LocketPt from './pages/locket/LocketPt';
+import LocketUmpeg from './pages/locket/LocketUmpeg';
+import LocketKeuangan from './pages/locket/LocketKeuangan';
 import Welcome from './pages/locket/Welcome';
 import Login from './pages/public/Login';
 import LocketTk from './pages/locket/LocketTk';
@@ -23,8 +23,8 @@ function App() {
                 <Route path="/locket/tk" element={<LocketTk />} />
                 <Route path="/locket/sd" element={<LocketSd />} />
                 <Route path="/locket/smp" element={<LocketSmp />} />
-                <Route path="/locket/sma" element={<LocketSma />} />
-                <Route path="/locket/perguruan" element={<LocketPt />} />
+                <Route path="/locket/umpeg" element={<LocketUmpeg />} />
+                <Route path="/locket/keuangan" element={<LocketKeuangan />} />
                 <Route path="/login" element={<Login />} />
                 <Route element={<PrivateRoute />}>
                     <Route path="/" element={<Home />} />

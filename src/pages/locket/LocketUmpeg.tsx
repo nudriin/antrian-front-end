@@ -1,14 +1,14 @@
-import LocketLayout from "../../components/LocketLayout"
+import LocketLayout from '../../components/LocketLayout';
 import {
     TbUsers,
     TbUserCheck,
     TbUserPlus,
     TbUser,
     TbAwardFilled,
-} from "react-icons/tb"
-import { IoIosMegaphone } from "react-icons/io"
+} from 'react-icons/tb';
+import { IoIosMegaphone } from 'react-icons/io';
 
-export default function LocketPt() {
+export default function LocketUmpeg() {
     return (
         <LocketLayout>
             <section>
@@ -16,7 +16,9 @@ export default function LocketPt() {
                     <div className="col-span-4 p-4 bg-white border-2 rounded-xl border-darks2 shadow-box">
                         <div className="flex items-center gap-3 text-purples">
                             <TbAwardFilled size={80} className="" />
-                            <h1 className="text-4xl font-semibold">Loket TK</h1>
+                            <h1 className="text-4xl font-semibold">
+                                Loket UMPEG
+                            </h1>
                         </div>
                     </div>
                     <div className="col-span-1 p-4 bg-white border-2 rounded-xl border-darks2 shadow-box">
@@ -107,5 +109,5 @@ export default function LocketPt() {
                 </div>
             </section>
         </LocketLayout>
-    )
+    );
 }

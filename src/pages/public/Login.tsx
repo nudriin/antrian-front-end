@@ -48,9 +48,11 @@ export default function Login() {
                 console.log(data.data.token);
                 setLoading(false);
 
-                const d = moment().add(1, 'days').utc(true).local().format();
+                const d = moment().add(1, 'm').utc(true).local().toDate();
                 setCookie('auth', data.data.token, {
-                    expires: new Date(d),
+                    expires: d,
+                    path: '/', // Pastikan cookie tersedia di seluruh situs
+                    sameSite: 'strict', // Perlindungan terhadap CSRF
                 });
 
                 navigate('/queue/add');

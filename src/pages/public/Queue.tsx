@@ -46,13 +46,13 @@ export default function Queue() {
         }
     }, []);
 
-    const getTotalQueue = useCallback(async () => {
+    const getCurrentQueue = useCallback(async () => {
         if (locket.length === 0) return;
 
         try {
             setLoading(true);
             const queuePromises = locket.map(async (value) => {
-                const response = await fetch(`/api/queue/${value.id}/total`, {
+                const response = await fetch(`/api/queue/${value.id}/current`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function Queue() {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             result.forEach((result: any) => {
                 if (!result.errors) {
-                    queueMap.set(result.data.locket_id, result.data);
+                    queueMap.set(result.data.currentQueue, result.data);
                 } else {
                     console.error(result.errors);
                     throw new Error(result.errors);
@@ -87,20 +87,20 @@ export default function Queue() {
     }, [getAllLocket]);
 
     useEffect(() => {
-        getTotalQueue();
-    }, [getTotalQueue]);
+        getCurrentQueue();
+    }, [getCurrentQueue]);
 
     useEffect(() => {
         socket.connect();
 
-        socket.on('total', () => {
-            getTotalQueue();
-        });
+        // socket.on('total', () => {
+        //     getCurrentQueue();
+        // });
 
         return () => {
             socket.disconnect();
         };
-    }, [getTotalQueue, locket]);
+    }, [getCurrentQueue, locket]);
 
     return (
         <section className="min-h-full">

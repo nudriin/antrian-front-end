@@ -1,14 +1,14 @@
-import LocketLayout from "../../components/LocketLayout"
+import LocketLayout from '../../components/LocketLayout';
 import {
     TbUsers,
     TbUserCheck,
     TbUserPlus,
     TbUser,
     TbAwardFilled,
-} from "react-icons/tb"
-import { IoIosMegaphone } from "react-icons/io"
+} from 'react-icons/tb';
+import { IoIosMegaphone } from 'react-icons/io';
 
-export default function LocketSma() {
+export default function LocketKeuangan() {
     return (
         <LocketLayout>
             <section>
@@ -17,7 +17,7 @@ export default function LocketSma() {
                         <div className="flex items-center gap-3 text-purples">
                             <TbAwardFilled size={80} className="" />
                             <h1 className="text-4xl font-semibold">
-                                Loket SMA
+                                Loket Keuangan
                             </h1>
                         </div>
                     </div>
@@ -109,5 +109,5 @@ export default function LocketSma() {
                 </div>
             </section>
         </LocketLayout>
-    )
+    );
 }

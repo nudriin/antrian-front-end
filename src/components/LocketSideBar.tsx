@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom"
-import tutWuriImg from "../assets/images/web/tut_wuri.png"
+import { NavLink } from 'react-router-dom';
+import tutWuriImg from '../assets/images/web/tut_wuri.png';
 import {
     TbBoxMultiple1,
     TbBoxMultiple2,
@@ -8,11 +8,11 @@ import {
     TbBoxMultiple5,
     TbBoxMultiple6,
     TbIcons,
-} from "react-icons/tb"
+} from 'react-icons/tb';
 
 export default function LocketSideBar() {
-    const activeLink = "bg-darks2 text-purples"
-    const nonActiveLink = ""
+    const activeLink = 'bg-darks2 text-purples';
+    const nonActiveLink = '';
     return (
         <div className="flex flex-col justify-between gap-4 text-darks2">
             <NavLink to="/">
@@ -57,7 +57,7 @@ export default function LocketSideBar() {
             <div className="text-left">
                 <ul className="ml-2 mr-2">
                     <NavLink
-                        to="/locket/tk"
+                        to="/locket/ptk"
                         className={({ isActive }) =>
                             isActive ? activeLink : nonActiveLink
                         }
@@ -66,7 +66,7 @@ export default function LocketSideBar() {
                             <li>
                                 <TbBoxMultiple2 size={25} />
                             </li>
-                            <li className="">Loket TK</li>
+                            <li className="">Loket PTK</li>
                         </div>
                     </NavLink>
                 </ul>
@@ -108,7 +108,7 @@ export default function LocketSideBar() {
             <div className="text-left">
                 <ul className="ml-2 mr-2">
                     <NavLink
-                        to="/locket/sma"
+                        to="/locket/umpeg"
                         className={({ isActive }) =>
                             isActive ? activeLink : nonActiveLink
                         }
@@ -117,7 +117,7 @@ export default function LocketSideBar() {
                             <li>
                                 <TbBoxMultiple5 size={25} />
                             </li>
-                            <li className="">Loket SMA</li>
+                            <li className="">Loket UMPEG</li>
                         </div>
                     </NavLink>
                 </ul>
@@ -125,7 +125,7 @@ export default function LocketSideBar() {
             <div className="text-left">
                 <ul className="ml-2 mr-2">
                     <NavLink
-                        to="/locket/perguruan"
+                        to="/locket/keuangan"
                         className={({ isActive }) =>
                             isActive ? activeLink : nonActiveLink
                         }
@@ -134,11 +134,11 @@ export default function LocketSideBar() {
                             <li>
                                 <TbBoxMultiple6 size={25} />
                             </li>
-                            <li className="">Loket Perguruan Tinggi</li>
+                            <li className="">Loket Keuangan</li>
                         </div>
                     </NavLink>
                 </ul>
             </div>
         </div>
-    )
+    );
 }

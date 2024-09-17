@@ -1,14 +1,22 @@
-import LocketLayout from "../../components/LocketLayout"
+import LocketLayout from '../../components/LocketLayout';
 import {
     TbUsers,
     TbUserCheck,
     TbUserPlus,
     TbUser,
     TbAwardFilled,
-} from "react-icons/tb"
-import { IoIosMegaphone } from "react-icons/io"
+} from 'react-icons/tb';
+import { IoIosMegaphone } from 'react-icons/io';
+import useTotalQueue from '../../hooks/useTotalQueue';
+import useNextQueue from '../../hooks/useNextQueue';
+import useCurrentQueue from '../../hooks/useCurrentQueue';
+import useRemainQueue from '../../hooks/useRemainQueue';
 
 export default function LocketPaud() {
+    const total = useTotalQueue('paud');
+    const next = useNextQueue('paud');
+    const current = useCurrentQueue('paud');
+    const remain = useRemainQueue('paud');
     return (
         <LocketLayout>
             <section>
@@ -25,7 +33,7 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUsers size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">10</h1>
+                                <h1 className="text-4xl">{total}</h1>
                                 <p className="text-darks2">Jumlah Antrian</p>
                             </div>
                         </div>
@@ -34,7 +42,7 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUserCheck size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">10</h1>
+                                <h1 className="text-4xl">{current}</h1>
                                 <p className="text-darks2">Antrian Sekarang</p>
                             </div>
                         </div>
@@ -43,7 +51,7 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUserPlus size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">10</h1>
+                                <h1 className="text-4xl">{next}</h1>
                                 <p className="text-darks2">
                                     Antrian Selanjutnya
                                 </p>
@@ -54,7 +62,7 @@ export default function LocketPaud() {
                         <div className="flex items-center gap-3">
                             <TbUser size={80} className="text-purples" />
                             <div className="text-purples">
-                                <h1 className="text-4xl">10</h1>
+                                <h1 className="text-4xl">{remain}</h1>
                                 <p className="text-darks2">Sisa Antrian</p>
                             </div>
                         </div>
@@ -109,5 +117,5 @@ export default function LocketPaud() {
                 </div>
             </section>
         </LocketLayout>
-    )
+    );
 }
