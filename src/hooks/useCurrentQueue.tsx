@@ -32,7 +32,7 @@ export default function useCurrentQueue(name: string) {
         }
     }, [name]);
 
-    const getTotalQueue = useCallback(async () => {
+    const getCurrentQueue = useCallback(async () => {
         try {
             if (!loading && locket?.id) {
                 const response = await fetch(
@@ -67,20 +67,20 @@ export default function useCurrentQueue(name: string) {
     }, [getLocketName]);
 
     useEffect(() => {
-        getTotalQueue();
-    }, [getTotalQueue]);
+        getCurrentQueue();
+    }, [getCurrentQueue]);
 
     useEffect(() => {
         socket.connect();
 
-        socket.on('current', () => {
-            getTotalQueue();
+        socket.on('currentQueue', () => {
+            getCurrentQueue();
         });
 
         return () => {
-            socket.off('current');
+            socket.off('currentQueue');
         };
-    }, [getTotalQueue]);
+    }, [getCurrentQueue]);
 
     return current;
 }
