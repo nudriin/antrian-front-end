@@ -120,6 +120,7 @@ export default function AddQueue() {
         socket.emit('getTotalQueue', parseInt(e.currentTarget.value));
         socket.emit('getRemainQueue', parseInt(e.currentTarget.value));
         socket.emit('getNextQueue', parseInt(e.currentTarget.value));
+        socket.emit('getAllQueue', parseInt(e.currentTarget.value));
 
         try {
             setLoading(true);
