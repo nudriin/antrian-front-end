@@ -1,62 +1,62 @@
-import LocketLayout from '../../components/LocketLayout';
+import LocketLayout from "../../components/LocketLayout"
 import {
     TbUsers,
     TbUserCheck,
     TbUserPlus,
     TbUser,
     TbAwardFilled,
-} from 'react-icons/tb';
-import { IoIosMegaphone } from 'react-icons/io';
-import useTotalQueue from '../../hooks/useTotalQueue';
-import useNextQueue from '../../hooks/useNextQueue';
-import useCurrentQueue from '../../hooks/useCurrentQueue';
-import useRemainQueue from '../../hooks/useRemainQueue';
-import useAllQueueInLocket from '../../hooks/useAllQueueInLocket';
-import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
-import { socket } from '../../socket';
-import { Queue, QueueAggregateResponse } from '../../types/queue';
-import useLocketByName from '../../hooks/useLocketByName';
-import { Locket } from '../../types/locket';
-import textToSpeech from '../../helper/textToSpeech';
+} from "react-icons/tb"
+import { IoIosMegaphone } from "react-icons/io"
+import useTotalQueue from "../../hooks/useTotalQueue"
+import useNextQueue from "../../hooks/useNextQueue"
+import useCurrentQueue from "../../hooks/useCurrentQueue"
+import useRemainQueue from "../../hooks/useRemainQueue"
+import useAllQueueInLocket from "../../hooks/useAllQueueInLocket"
+import React, { useEffect, useState } from "react"
+import { useCookies } from "react-cookie"
+import { socket } from "../../socket"
+import { Queue, QueueAggregateResponse } from "../../types/queue"
+import useLocketByName from "../../hooks/useLocketByName"
+import { Locket } from "../../types/locket"
+import textToSpeech from "../../helper/textToSpeech"
 
 export default function LocketSd() {
-    const total = useTotalQueue('sd');
-    const initialNext = useNextQueue('sd');
-    const initialCurrent = useCurrentQueue('sd');
-    const initialRemain = useRemainQueue('sd');
-    const initialQueues = useAllQueueInLocket('sd');
-    const initalLocket = useLocketByName('sd');
-    const [cookie] = useCookies(['auth']);
-    const token = cookie.auth;
+    const total = useTotalQueue("sd")
+    const initialNext = useNextQueue("sd")
+    const initialCurrent = useCurrentQueue("sd")
+    const initialRemain = useRemainQueue("sd")
+    const initialQueues = useAllQueueInLocket("sd")
+    const initalLocket = useLocketByName("sd")
+    const [cookie] = useCookies(["auth"])
+    const token = cookie.auth
 
     const [remain, setRemain] = useState<QueueAggregateResponse | undefined>(
         undefined
-    );
+    )
     const [next, setNext] = useState<QueueAggregateResponse | undefined>(
         undefined
-    );
+    )
     const [current, setCurrent] = useState<QueueAggregateResponse | undefined>(
         undefined
-    );
-    const [queues, setQueues] = useState<Queue[] | undefined | []>(undefined);
-    const [locket, setLocket] = useState<Locket | undefined>(undefined);
+    )
+    const [queues, setQueues] = useState<Queue[] | undefined | []>(undefined)
+    const [locket, setLocket] = useState<Locket | undefined>(undefined)
 
     useEffect(() => {
         if (initialRemain !== undefined) {
-            setRemain(initialRemain);
+            setRemain(initialRemain)
         }
         if (initialNext !== undefined) {
-            setNext(initialNext);
+            setNext(initialNext)
         }
         if (initialCurrent !== undefined) {
-            setCurrent(initialCurrent);
+            setCurrent(initialCurrent)
         }
         if (initialQueues !== undefined) {
-            setQueues(initialQueues);
+            setQueues(initialQueues)
         }
         if (initalLocket !== undefined) {
-            setLocket(initalLocket);
+            setLocket(initalLocket)
         }
     }, [
         initialRemain,
@@ -64,36 +64,36 @@ export default function LocketSd() {
         initialCurrent,
         initialQueues,
         initalLocket,
-    ]);
+    ])
 
     const handleCall = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+        e.preventDefault()
 
         try {
-            const id = e.currentTarget.value;
+            const id = e.currentTarget.value
             const response = await fetch(`/api/queue/${id}`, {
-                method: 'PATCH',
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-            });
+            })
 
-            const body = await response.json();
+            const body = await response.json()
             if (!body.errors) {
-                socket.emit('getRemainQueue', locket?.id);
-                socket.emit('getNextQueue', locket?.id);
-                socket.emit('getCurrentQueue', locket?.id);
-                socket.emit('getAllQueue', locket?.id);
-                console.log(body);
+                socket.emit("getRemainQueue", locket?.id)
+                socket.emit("getNextQueue", locket?.id)
+                socket.emit("getCurrentQueue", locket?.id)
+                socket.emit("getAllQueue", locket?.id)
+                console.log(body)
             } else {
-                console.log(body.errors);
-                throw new Error(body.errors);
+                console.log(body.errors)
+                throw new Error(body.errors)
             }
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    };
+    }
 
     return (
         <LocketLayout>
@@ -167,26 +167,26 @@ export default function LocketSd() {
                                             className="border-2 rounded-lg border-darks2"
                                         >
                                             <td className="text-xl font-semibold border-2 rounded-lg border-darks2">
-                                                A
+                                                C
                                                 {String(
                                                     value.queue_number
-                                                ).padStart(2, '0')}
+                                                ).padStart(2, "0")}
                                             </td>
                                             <td className="flex items-center justify-center p-2">
                                                 <button
                                                     onClick={(
                                                         e: React.MouseEvent<HTMLButtonElement>
                                                     ) => {
-                                                        const text = `Nomor antrian, A,${String(
+                                                        const text = `Nomor antrian, C,${String(
                                                             value.queue_number
                                                         ).padStart(
                                                             2,
-                                                            '0'
+                                                            "0"
                                                         )}, silahkan menuju loket, ${
                                                             locket?.name
-                                                        }`;
-                                                        textToSpeech(text);
-                                                        handleCall(e);
+                                                        }`
+                                                        textToSpeech(text)
+                                                        handleCall(e)
                                                     }}
                                                     value={value.id}
                                                 >
@@ -194,14 +194,14 @@ export default function LocketSd() {
                                                         size={35}
                                                         className={`p-2 text-white rounded-full cursor-pointer ${
                                                             value.updatedAt
-                                                                ? 'bg-slate-300'
-                                                                : 'bg-purples'
+                                                                ? "bg-slate-300"
+                                                                : "bg-purples"
                                                         }  hover:scale-105`}
                                                     />
                                                 </button>
                                             </td>
                                         </tr>
-                                    );
+                                    )
                                 })}
                             </tbody>
                         </table>
@@ -209,5 +209,5 @@ export default function LocketSd() {
                 </div>
             </section>
         </LocketLayout>
-    );
+    )
 }
