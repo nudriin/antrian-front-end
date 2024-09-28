@@ -1,5 +1,4 @@
-import { NavLink } from 'react-router-dom';
-import tutWuriImg from '../assets/images/web/tut_wuri.png';
+import { NavLink } from "react-router-dom"
 import {
     TbBoxMultiple1,
     TbBoxMultiple2,
@@ -8,22 +7,25 @@ import {
     TbBoxMultiple5,
     TbBoxMultiple6,
     TbIcons,
-} from 'react-icons/tb';
+} from "react-icons/tb"
+import pky from "../assets/images/web/pky.png"
 
 export default function LocketSideBar() {
-    const activeLink = 'bg-darks2 text-purples';
-    const nonActiveLink = '';
+    const activeLink =
+        "flex items-center gap-3 px-4 py-3 font-bold font-rubik rounded-full bg-primary text-white"
+    const nonActiveLink =
+        "flex items-center gap-3 px-4 py-3 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full"
     return (
-        <div className="flex flex-col justify-between gap-4 text-darks2">
+        <div className="flex flex-col justify-between gap-4">
             <NavLink to="/">
-                <div className="flex items-center justify-center mt-4">
-                    <img className="h-24" src={tutWuriImg} alt="" />
+                <div className="flex items-center justify-center my-6">
+                    <img className="h-[100px]" src={pky} alt="" />
                 </div>
             </NavLink>
             <div className="text-left">
                 <ul className="ml-2 mr-2">
                     <NavLink to="/locket">
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
+                        <div className="flex items-center gap-3 px-4 py-3 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
                             <li>
                                 <TbIcons size={25} />
                             </li>
@@ -40,12 +42,10 @@ export default function LocketSideBar() {
                             isActive ? activeLink : nonActiveLink
                         }
                     >
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
-                            <li>
-                                <TbBoxMultiple1 size={25} />
-                            </li>
-                            <li className="">Loket PAUD</li>
-                        </div>
+                        <li>
+                            <TbBoxMultiple1 size={25} />
+                        </li>
+                        <li className="">Loket PAUD</li>
                     </NavLink>
                 </ul>
             </div>
@@ -57,12 +57,10 @@ export default function LocketSideBar() {
                             isActive ? activeLink : nonActiveLink
                         }
                     >
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
-                            <li>
-                                <TbBoxMultiple2 size={25} />
-                            </li>
-                            <li className="">Loket PTK</li>
-                        </div>
+                        <li>
+                            <TbBoxMultiple2 size={25} />
+                        </li>
+                        <li className="">Loket PTK</li>
                     </NavLink>
                 </ul>
             </div>
@@ -74,12 +72,10 @@ export default function LocketSideBar() {
                             isActive ? activeLink : nonActiveLink
                         }
                     >
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
-                            <li>
-                                <TbBoxMultiple3 size={25} />
-                            </li>
-                            <li className="">Loket SD</li>
-                        </div>
+                        <li>
+                            <TbBoxMultiple3 size={25} />
+                        </li>
+                        <li className="">Loket SD</li>
                     </NavLink>
                 </ul>
             </div>
@@ -91,12 +87,10 @@ export default function LocketSideBar() {
                             isActive ? activeLink : nonActiveLink
                         }
                     >
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
-                            <li>
-                                <TbBoxMultiple4 size={25} />
-                            </li>
-                            <li className="">Loket SMP</li>
-                        </div>
+                        <li>
+                            <TbBoxMultiple4 size={25} />
+                        </li>
+                        <li className="">Loket SMP</li>
                     </NavLink>
                 </ul>
             </div>
@@ -108,12 +102,10 @@ export default function LocketSideBar() {
                             isActive ? activeLink : nonActiveLink
                         }
                     >
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
-                            <li>
-                                <TbBoxMultiple5 size={25} />
-                            </li>
-                            <li className="">Loket UMPEG</li>
-                        </div>
+                        <li>
+                            <TbBoxMultiple5 size={25} />
+                        </li>
+                        <li className="">Loket UMPEG</li>
                     </NavLink>
                 </ul>
             </div>
@@ -125,15 +117,13 @@ export default function LocketSideBar() {
                             isActive ? activeLink : nonActiveLink
                         }
                     >
-                        <div className="flex items-center gap-3 px-4 py-2 font-bold font-rubik hover:bg-purples hover:text-white hover:rounded-lg">
-                            <li>
-                                <TbBoxMultiple6 size={25} />
-                            </li>
-                            <li className="">Loket Keuangan</li>
-                        </div>
+                        <li>
+                            <TbBoxMultiple6 size={25} />
+                        </li>
+                        <li className="">Loket Keuangan</li>
                     </NavLink>
                 </ul>
             </div>
         </div>
-    );
+    )
 }
