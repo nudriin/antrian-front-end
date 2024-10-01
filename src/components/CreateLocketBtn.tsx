@@ -23,6 +23,7 @@ import { Button } from "./ui/button"
 import { BsFileEarmarkPlus } from "react-icons/bs"
 import { Input } from "./ui/input"
 import { toast } from "../hooks/use-toast"
+import { useNavigate } from "react-router-dom"
 
 const locketSchema = z.object({
     name: z.string().min(1).max(119),
@@ -39,6 +40,7 @@ export default function CreateLocketBtn() {
     })
     const [cookie] = useCookies(["auth"])
     const token = cookie.auth
+    const navigate = useNavigate()
 
     const handleLocketSubmit = async (values: locketSchemaType) => {
         try {
@@ -57,6 +59,7 @@ export default function CreateLocketBtn() {
                     title: "Sukses",
                     description: "Loket berhasil dibuat",
                 })
+                navigate(0)
             } else {
                 throw new Error(body.errors)
             }
