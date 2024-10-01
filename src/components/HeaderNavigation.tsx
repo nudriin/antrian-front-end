@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import { NavLink } from "react-router-dom"
+import Logout from "./Logout"
 
 export default function HeaderNavigation({
     children,
@@ -11,7 +12,7 @@ export default function HeaderNavigation({
     const nonActiveLink =
         "flex items-center gap-3 px-3 py-2 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-2xl "
     const nonActiveLinkLogout =
-        "flex items-center gap-3 px-3 py-2 font-bold font-rubik hover:bg-red-500 hover:text-white hover:rounded-2xl"
+        "flex items-center gap-3 px-3 py-2 font-bold font-rubik hover:bg-red-500 hover:text-white hover:rounded-2xl cursor-pointer"
 
     return (
         <div>
@@ -54,14 +55,9 @@ export default function HeaderNavigation({
                     >
                         <li>Locket</li>
                     </NavLink>
-                    <NavLink
-                        to="/logout"
-                        className={({ isActive }) =>
-                            isActive ? activeLink : nonActiveLinkLogout
-                        }
-                    >
-                        <li>Logout</li>
-                    </NavLink>
+                    <li className={nonActiveLinkLogout}>
+                        <Logout />
+                    </li>
                 </ul>
             </div>
             <div className="p-0 mt-[68px]">{children}</div>

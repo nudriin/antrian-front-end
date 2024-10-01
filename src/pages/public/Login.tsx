@@ -123,7 +123,7 @@ export default function Login() {
                                 marginTop={5}
                                 backgroundColor="#171717"
                                 width="100%"
-                                color="#D9E922"
+                                color="#FFF"
                                 type="submit"
                             >
                                 Login
