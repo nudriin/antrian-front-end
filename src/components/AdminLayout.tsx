@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 import HeaderNavigation from "./HeaderNavigation"
 import Footer from "./Footer"
 import AdminSidebar from "./AdminSidebar"
@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     <div className="flex flex-col bg-white w-[21rem] rounded-2xl">
                         <AdminSidebar />
                     </div>
-                    <div className="w-9/12 h-full bg-white rounded-2xl">
+                    <div className="w-9/12 h-full min-h-screen bg-white rounded-2xl">
                         {children}
                     </div>
                 </div>
