@@ -1,4 +1,3 @@
-import React from "react"
 import {
     TbUsers,
     TbUserCheck,
@@ -8,8 +7,8 @@ import {
 } from "react-icons/tb"
 import { Queue, QueueAggregateResponse } from "../types/queue"
 import { Locket } from "../types/locket"
-import { IoIosMegaphone } from "react-icons/io"
 import LocketLayout from "./LocketLayout"
+import QueueTable from "./QueueTable" // Import the new QueueTable component
 
 export default function LocketComponent({
     title,
@@ -86,64 +85,16 @@ export default function LocketComponent({
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-4 p-4 bg-white border-2 border-primary rounded-2xl">
-                        <table className="w-full ">
-                            <thead>
-                                <tr>
-                                    <th className="border-2 rounded-lg border-primary">
-                                        Nomor Antrian
-                                    </th>
-                                    <th className="border-2 rounded-lg border-primary">
-                                        Panggil
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {queues?.map((value, index) => {
-                                    return (
-                                        <tr
-                                            key={index}
-                                            className="border-2 rounded-lg border-primary"
-                                        >
-                                            <td className="text-xl font-semibold border-2 rounded-lg border-primary">
-                                                {locketCode}
-                                                {String(
-                                                    value.queue_number
-                                                ).padStart(2, "0")}
-                                            </td>
-                                            <td className="flex items-center justify-center p-2">
-                                                <button
-                                                    onClick={(
-                                                        e: React.MouseEvent<HTMLButtonElement>
-                                                    ) => {
-                                                        const text = `Nomor antrian, ${locketCode},${String(
-                                                            value.queue_number
-                                                        ).padStart(
-                                                            2,
-                                                            "0"
-                                                        )}, silahkan menuju loket, ${
-                                                            locket?.name
-                                                        }`
-                                                        textToSpeech(text)
-                                                        handleCall(e)
-                                                    }}
-                                                    value={value.id}
-                                                >
-                                                    <IoIosMegaphone
-                                                        size={35}
-                                                        className={`p-2 text-primary rounded-full cursor-pointer ${
-                                                            value.updatedAt
-                                                                ? "bg-muted"
-                                                                : "bg-secondary"
-                                                        }  hover:scale-105`}
-                                                    />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
+                    <div className="col-span-4">
+                        {queues && (
+                            <QueueTable
+                                queues={queues}
+                                locketCode={locketCode}
+                                locket={locket}
+                                handleCall={handleCall}
+                                textToSpeech={textToSpeech}
+                            />
+                        )}
                     </div>
                 </div>
             </section>

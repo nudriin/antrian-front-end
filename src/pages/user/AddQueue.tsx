@@ -4,10 +4,11 @@ import { Locket } from "../../types/locket"
 import { useCookies } from "react-cookie"
 import { socket } from "../../socket"
 import { useToast } from "@chakra-ui/react"
-import { locketCodes } from "../../constants/constant"
 import { QueueAggregateResponse } from "../../types/queue"
 import printQueue from "../../helper/printQueue"
 import HeaderLayout from "../../components/HeaderLayout"
+import getLocketCodeFromName from "../../helper/getLocketCodeFromName"
+import Footer from "../../components/Footer"
 
 export default function AddQueue() {
     const [loading, setLoading] = useState(false)
@@ -153,23 +154,25 @@ export default function AddQueue() {
         }
     }
     return (
-        <HeaderLayout>
-            <section className="min-h-full">
-                <div className="grid grid-cols-4 gap-4">
-                    {locket.map((value: Locket, index: number) => {
-                        const totalQueue = queues.get(value.id)?.total ?? 0
-                        const locketCode =
-                            locketCodes[index % locketCodes.length]
-                        const total = `${locketCode}${String(
-                            totalQueue
-                        ).padStart(2, "0")}`
-                        const totalPrint = `${locketCode}${String(
-                            typeof totalQueue === "number" ? totalQueue + 1 : 1
-                        ).padStart(2, "0")}`
-                        return (
-                            <div
-                                key={index}
-                                className={`
+        <>
+            <HeaderLayout>
+                <section className="min-h-full">
+                    <div className="grid grid-cols-4 gap-4">
+                        {locket.map((value: Locket, index: number) => {
+                            const totalQueue = queues.get(value.id)?.total ?? 0
+                            const locketCode = getLocketCodeFromName(value.name)
+                            const total = `${locketCode}${String(
+                                totalQueue
+                            ).padStart(2, "0")}`
+                            const totalPrint = `${locketCode}${String(
+                                typeof totalQueue === "number"
+                                    ? totalQueue + 1
+                                    : 1
+                            ).padStart(2, "0")}`
+                            return (
+                                <div
+                                    key={index}
+                                    className={`
                                     ${index > 3 ? "col-span-2" : "col-span-1"}
                                     rounded-2xl
                                     ${
@@ -195,34 +198,34 @@ export default function AddQueue() {
                                             : ""
                                     }
                                     `}
-                            >
-                                <h3
-                                    className={`text-2xl my-3 uppercase font-semibold`}
                                 >
-                                    Antrian
-                                </h3>
-                                <h1 className={`text-6xl my-6 font-bold`}>
-                                    {total}
-                                </h1>
-                                <h3
-                                    className={`text-2xl my-3 uppercase font-semibold`}
-                                >
-                                    Loket {value.name}
-                                </h3>
-                                <button
-                                    onClick={(
-                                        e: React.MouseEvent<HTMLButtonElement>
-                                    ) => {
-                                        addQueue(e)
-                                        printQueue(totalPrint, value.name)
-                                    }}
-                                    value={value.id}
-                                    disabled={loading}
-                                    className={`flex gap-2 items-center justify-center mx-auto mb-4 py-3 px-3 rounded-full font-semibold hover:bg-muted ${
-                                        index === 1
-                                            ? "bg-secondary text-primary"
-                                            : ""
-                                    }
+                                    <h3
+                                        className={`text-2xl my-3 uppercase font-semibold`}
+                                    >
+                                        Antrian
+                                    </h3>
+                                    <h1 className={`text-6xl my-6 font-bold`}>
+                                        {total}
+                                    </h1>
+                                    <h3
+                                        className={`text-2xl my-3 uppercase font-semibold`}
+                                    >
+                                        Loket {value.name}
+                                    </h3>
+                                    <button
+                                        onClick={(
+                                            e: React.MouseEvent<HTMLButtonElement>
+                                        ) => {
+                                            addQueue(e)
+                                            printQueue(totalPrint, value.name)
+                                        }}
+                                        value={value.id}
+                                        disabled={loading}
+                                        className={`flex gap-2 items-center justify-center mx-auto mb-4 py-3 px-3 rounded-full font-semibold hover:bg-muted ${
+                                            index === 1
+                                                ? "bg-secondary text-primary"
+                                                : ""
+                                        }
                                     ${
                                         index === 2
                                             ? "bg-white text-primary"
@@ -240,14 +243,17 @@ export default function AddQueue() {
                                             ? "bg-primary text-white"
                                             : ""
                                     }`}
-                                >
-                                    <IoMdAddCircle size={25} /> Tambah Antrian
-                                </button>
-                            </div>
-                        )
-                    })}
-                </div>
-            </section>
-        </HeaderLayout>
+                                    >
+                                        <IoMdAddCircle size={25} /> Tambah
+                                        Antrian
+                                    </button>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </section>
+            </HeaderLayout>
+            <Footer />
+        </>
     )
 }

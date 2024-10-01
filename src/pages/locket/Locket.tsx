@@ -1,25 +1,28 @@
+import React, { useEffect, useState } from "react"
+import LocketComponent from "../../components/LocketComponent"
+import textToSpeech from "../../helper/textToSpeech"
+import { socket } from "../../socket"
+import { Locket as LocketType } from "../../types/locket"
+import { Queue, QueueAggregateResponse } from "../../types/queue"
+import { useToast } from "@chakra-ui/react"
+import { useCookies } from "react-cookie"
 import useTotalQueue from "../../hooks/useTotalQueue"
 import useNextQueue from "../../hooks/useNextQueue"
 import useCurrentQueue from "../../hooks/useCurrentQueue"
-import useRemainQueue from "../../hooks/useRemainQueue"
 import useAllQueueInLocket from "../../hooks/useAllQueueInLocket"
-import React, { useEffect, useState } from "react"
-import { useCookies } from "react-cookie"
-import { socket } from "../../socket"
-import { Queue, QueueAggregateResponse } from "../../types/queue"
 import useLocketByName from "../../hooks/useLocketByName"
-import { Locket } from "../../types/locket"
-import textToSpeech from "../../helper/textToSpeech"
-import { useToast } from "@chakra-ui/react"
-import LocketComponent from "../../components/LocketComponent"
+import useRemainQueue from "../../hooks/useRemainQueue"
+import { useParams } from "react-router-dom"
+import getLocketCodeFromName from "../../helper/getLocketCodeFromName"
 
-export default function LocketPaud() {
-    const total = useTotalQueue("paud")
-    const initialNext = useNextQueue("paud")
-    const initialCurrent = useCurrentQueue("paud")
-    const initialRemain = useRemainQueue("paud")
-    const initialQueues = useAllQueueInLocket("paud")
-    const initalLocket = useLocketByName("paud")
+export default function Locket() {
+    const { locketName } = useParams()
+    const total = useTotalQueue(locketName || "")
+    const initialNext = useNextQueue(locketName || "")
+    const initialCurrent = useCurrentQueue(locketName || "")
+    const initialRemain = useRemainQueue(locketName || "")
+    const initialQueues = useAllQueueInLocket(locketName || "")
+    const initalLocket = useLocketByName(locketName || "")
     const [cookie] = useCookies(["auth"])
     const token = cookie.auth
     const toast = useToast()
@@ -34,7 +37,7 @@ export default function LocketPaud() {
         undefined
     )
     const [queues, setQueues] = useState<Queue[] | undefined | []>(undefined)
-    const [locket, setLocket] = useState<Locket | undefined>(undefined)
+    const [locket, setLocket] = useState<LocketType | undefined>(undefined)
 
     useEffect(() => {
         if (initialRemain !== undefined) {
@@ -99,16 +102,18 @@ export default function LocketPaud() {
         }
     }
 
+    const locketCode = getLocketCodeFromName(locketName)
+
     return (
         <LocketComponent
-            title="Locket PAUD"
+            title={`Locket ${locket?.name?.toLocaleUpperCase()}`}
             total={total}
             current={current}
             next={next}
             remain={remain}
             locket={locket}
             queues={queues}
-            locketCode="A"
+            locketCode={locketCode}
             handleCall={handleCall}
             textToSpeech={textToSpeech}
         />
