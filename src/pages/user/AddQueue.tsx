@@ -4,10 +4,10 @@ import { Locket } from "../../types/locket"
 import { useCookies } from "react-cookie"
 import { socket } from "../../socket"
 import { useToast } from "@chakra-ui/react"
-import { locketCodes } from "../../constants/constant"
 import { QueueAggregateResponse } from "../../types/queue"
 import printQueue from "../../helper/printQueue"
 import HeaderLayout from "../../components/HeaderLayout"
+import getLocketCodeFromName from "../../helper/getLocketCodeFromName"
 
 export default function AddQueue() {
     const [loading, setLoading] = useState(false)
@@ -158,8 +158,7 @@ export default function AddQueue() {
                 <div className="grid grid-cols-4 gap-4">
                     {locket.map((value: Locket, index: number) => {
                         const totalQueue = queues.get(value.id)?.total ?? 0
-                        const locketCode =
-                            locketCodes[index % locketCodes.length]
+                        const locketCode = getLocketCodeFromName(value.name)
                         const total = `${locketCode}${String(
                             totalQueue
                         ).padStart(2, "0")}`

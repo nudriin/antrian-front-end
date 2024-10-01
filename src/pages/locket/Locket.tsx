@@ -13,6 +13,7 @@ import useAllQueueInLocket from "../../hooks/useAllQueueInLocket"
 import useLocketByName from "../../hooks/useLocketByName"
 import useRemainQueue from "../../hooks/useRemainQueue"
 import { useParams } from "react-router-dom"
+import getLocketCodeFromName from "../../helper/getLocketCodeFromName"
 
 export default function Locket() {
     const { locketName } = useParams()
@@ -101,16 +102,18 @@ export default function Locket() {
         }
     }
 
+    const locketCode = getLocketCodeFromName(locketName)
+
     return (
         <LocketComponent
-            title={`Locket ${locketName?.toLocaleUpperCase()}`}
+            title={`Locket ${locket?.name?.toLocaleUpperCase()}`}
             total={total}
             current={current}
             next={next}
             remain={remain}
             locket={locket}
             queues={queues}
-            locketCode="A"
+            locketCode={locketCode}
             handleCall={handleCall}
             textToSpeech={textToSpeech}
         />

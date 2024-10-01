@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { Locket } from "../../types/locket"
 import { socket } from "../../socket"
-import { locketCodes } from "../../constants/constant"
 import { QueueAggregateResponse } from "../../types/queue"
 import HeaderLayout from "../../components/HeaderLayout"
+import getLocketCodeFromName from "../../helper/getLocketCodeFromName"
 
 export default function Queue() {
     const [, setLoading] = useState(false)
@@ -100,8 +100,7 @@ export default function Queue() {
                     {locket.map((value: Locket, index: number) => {
                         const totalQueue =
                             queues.get(value.id)?.currentQueue ?? 0
-                        const locketCode =
-                            locketCodes[index % locketCodes.length]
+                        const locketCode = getLocketCodeFromName(value.name)
                         const total = `${locketCode}${String(
                             totalQueue
                         ).padStart(2, "0")}`
