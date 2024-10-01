@@ -112,11 +112,7 @@ export default function Queue() {
                                     className={`
                                     ${index > 3 ? "col-span-2" : "col-span-1"}
                                     rounded-2xl
-                                    ${
-                                        index === 1
-                                            ? "bg-primary text-secondary"
-                                            : ""
-                                    }
+                                    ${index === 1 ? "bg-primary text-lime" : ""}
                                     ${
                                         index === 2
                                             ? "bg-highlight text-white"
@@ -124,7 +120,7 @@ export default function Queue() {
                                     }
                                     ${
                                         index === locket.length - 1
-                                            ? "bg-secondary text-primary"
+                                            ? "bg-lime text-primary"
                                             : ""
                                     }
                                     ${

@@ -56,7 +56,7 @@ const QueueTable = ({
                             className={`p-2 text-primary rounded-full cursor-pointer ${
                                 info.row.original.updatedAt
                                     ? "bg-muted"
-                                    : "bg-secondary"
+                                    : "bg-lime"
                             } hover:scale-105`}
                         />
                     </button>

@@ -16,7 +16,7 @@ export default function HeaderNavigation({
 
     return (
         <div>
-            <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 mt-5 mb-4 ml-8 mr-8 border-2 backdrop-blur-sm bg-white/90 rounded-2xl border-secondary">
+            <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 mt-5 mb-4 ml-8 mr-8 border-2 backdrop-blur-sm bg-white/50 rounded-2xl border-primary">
                 <div>
                     <h1 className="text-xl font-bold">
                         Disdik Kota Palangka Raya

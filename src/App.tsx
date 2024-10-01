@@ -9,6 +9,7 @@ import SignRoute from "./components/SignRoute"
 import LocketPrivateRoute from "./components/LocketPrivateRoute"
 import Locket from "./pages/locket/Locket"
 import Welcome from "./pages/locket/Welcome"
+import AdminDashboard from "./pages/admin/AdminDashboard"
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/queue/add" element={<AddQueue />} />
                 </Route>
+                <Route path="/dashboard" element={<AdminDashboard />} />
             </Routes>
         </BrowserRouter>
     )
