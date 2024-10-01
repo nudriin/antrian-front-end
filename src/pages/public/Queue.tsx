@@ -4,6 +4,7 @@ import { socket } from "../../socket"
 import { QueueAggregateResponse } from "../../types/queue"
 import HeaderLayout from "../../components/HeaderLayout"
 import getLocketCodeFromName from "../../helper/getLocketCodeFromName"
+import Footer from "../../components/Footer"
 
 export default function Queue() {
     const [, setLoading] = useState(false)
@@ -94,20 +95,21 @@ export default function Queue() {
     }, [getCurrentQueue, locket])
 
     return (
-        <HeaderLayout>
-            <section className="min-h-full">
-                <div className="grid grid-cols-4 gap-4">
-                    {locket.map((value: Locket, index: number) => {
-                        const totalQueue =
-                            queues.get(value.id)?.currentQueue ?? 0
-                        const locketCode = getLocketCodeFromName(value.name)
-                        const total = `${locketCode}${String(
-                            totalQueue
-                        ).padStart(2, "0")}`
-                        return (
-                            <div
-                                key={index}
-                                className={`
+        <>
+            <HeaderLayout>
+                <section className="min-h-full">
+                    <div className="grid grid-cols-4 gap-4">
+                        {locket.map((value: Locket, index: number) => {
+                            const totalQueue =
+                                queues.get(value.id)?.currentQueue ?? 0
+                            const locketCode = getLocketCodeFromName(value.name)
+                            const total = `${locketCode}${String(
+                                totalQueue
+                            ).padStart(2, "0")}`
+                            return (
+                                <div
+                                    key={index}
+                                    className={`
                                     ${index > 3 ? "col-span-2" : "col-span-1"}
                                     rounded-2xl
                                     ${
@@ -133,25 +135,27 @@ export default function Queue() {
                                             : ""
                                     }
                                     `}
-                            >
-                                <h3
-                                    className={`text-2xl my-3 uppercase font-semibold`}
                                 >
-                                    Antrian
-                                </h3>
-                                <h1 className={`text-6xl my-6 font-bold`}>
-                                    {total}
-                                </h1>
-                                <h3
-                                    className={`text-2xl my-3 uppercase font-semibold`}
-                                >
-                                    Loket {value.name}
-                                </h3>
-                            </div>
-                        )
-                    })}
-                </div>
-            </section>
-        </HeaderLayout>
+                                    <h3
+                                        className={`text-2xl my-3 uppercase font-semibold`}
+                                    >
+                                        Antrian
+                                    </h3>
+                                    <h1 className={`text-6xl my-6 font-bold`}>
+                                        {total}
+                                    </h1>
+                                    <h3
+                                        className={`text-2xl my-3 uppercase font-semibold`}
+                                    >
+                                        Loket {value.name}
+                                    </h3>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </section>
+            </HeaderLayout>
+            <Footer />
+        </>
     )
 }

@@ -1,12 +1,13 @@
 import { NavLink } from "react-router-dom"
 import { TbIcons } from "react-icons/tb"
+import { IoDocumentText } from "react-icons/io5"
 import pky from "../assets/images/web/pky.png"
 import { useCallback, useEffect, useState } from "react"
 import { Locket } from "../types/locket"
 
 export default function LocketSideBar() {
     return (
-        <div className="flex flex-col justify-between gap-4">
+        <div className="flex flex-col justify-between gap-4 pb-10">
             <NavLink to="/">
                 <div className="flex items-center justify-center my-6">
                     <img className="h-[100px]" src={pky} alt="" />
@@ -102,7 +103,7 @@ function LocketListSidebar({
                 }
             >
                 <li>
-                    <TbIcons size={25} />
+                    <IoDocumentText size={25} />
                 </li>
                 <li>Loket {locketName.toUpperCase()}</li>
             </NavLink>

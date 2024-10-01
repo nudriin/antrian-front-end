@@ -15,7 +15,6 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/queue" element={<Queue />} />
-
                 <Route element={<LocketPrivateRoute />}>
                     <Route path="/locket" element={<Welcome />} />
                     <Route path="/locket/:locketName" element={<Locket />} />
