@@ -6,8 +6,8 @@ export default function Welcome() {
         <LocketLayout>
             <section>
                 <div className="grid grid-cols-4 gap-4 p-6">
-                    <div className="col-span-4 p-4 bg-white border-2 rounded-xl border-darks2 shadow-box">
-                        <div className="flex items-center gap-4 text-purples">
+                    <div className="col-span-4 p-4 bg-primary text-secondary rounded-xl">
+                        <div className="flex items-center gap-4">
                             <TbAwardFilled size={80} className="" />
                             <div className="text-left">
                                 <h1 className="text-4xl font-semibold">
@@ -20,7 +20,7 @@ export default function Welcome() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-4 p-4 text-left bg-white border-2 rounded-xl border-darks2 shadow-box">
+                    <div className="col-span-4 p-4 text-left bg-white border-2 border-primary rounded-xl">
                         <p className="mb-4">
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Quisquam consequuntur veritatis accusamus

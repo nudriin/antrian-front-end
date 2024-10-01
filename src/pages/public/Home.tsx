@@ -1,67 +1,92 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom"
 import {
     IoIosContacts,
     IoIosArrowDroprightCircle,
     IoIosMic,
     IoMdAddCircle,
-} from 'react-icons/io';
-import tutWuriImg from '../../assets/images/web/tut_wuri.png';
+} from "react-icons/io"
+import HeaderLayout from "../../components/HeaderLayout"
 
 export default function Home() {
     return (
-        <section>
-            <div className="grid grid-cols-3 gap-4">
-                <div className="flex items-center col-span-3 gap-3 p-6 text-left text-white border-2 bg-purples rounded-xl shadow-box border-darks2">
-                    <div>
-                        <p>tanggal</p>
-                        <h1 className="my-6 text-4xl font-bold">
-                            Sistem Antrian Berbasis Web Dinas Pendidikan Kota
-                            Palangka Raya
-                        </h1>
-                        <p className="text-2xl">Semoga harimu menyenangkan!</p>
+        <HeaderLayout>
+            <div className="grid max-h-[120vh] grid-cols-4 grid-rows-2 gap-4">
+                <div className="order-1 col-span-2 row-span-1 p-6 text-left bg-white rounded-xl">
+                    <div className="flex flex-col">
+                        <div className="flex items-center gap-4">
+                            <IoIosContacts size={130} className="" />
+                            <div>
+                                <h1 className="text-4xl font-bold">
+                                    Nomor Antrian
+                                </h1>
+                                <p className="my-2">
+                                    Halaman Nomor Antrian digunakan untuk
+                                    menampilkan antrian pengunjung
+                                </p>
+                            </div>
+                        </div>
+                        <NavLink
+                            to="/queue"
+                            className="flex items-end justify-end"
+                        >
+                            <button className="flex items-center order-3 gap-3 px-4 py-2 text-white rounded-xl bg-primary">
+                                Tampilkan
+                                <IoIosArrowDroprightCircle size={25} />
+                            </button>
+                        </NavLink>
                     </div>
-                    <img className="h-48" src={tutWuriImg} alt="" />
                 </div>
-                <div className="col-span-1 p-6 text-left bg-white border-2 rounded-xl text-darks2 shadow-box border-darks2">
-                    <IoIosContacts size={100} className="text-purples" />
-                    <h1 className="my-3 text-4xl font-bold">Nomor Antrian</h1>
-                    <p className="my-3">
-                        Halaman Nomor Antrian digunakan untuk menampilkan
-                        antrian pengunjung
-                    </p>
-                    <NavLink to="/queue">
-                        <button className="flex items-center gap-3 px-4 py-2 my-3 text-white rounded-lg bg-purples">
-                            Tampilkan <IoIosArrowDroprightCircle size={25} />
-                        </button>
-                    </NavLink>
+                <div className="order-3 col-span-2 row-span-1 p-6 text-left bg-secondary rounded-xl">
+                    <div className="flex flex-col">
+                        <div className="flex items-center gap-4">
+                            <IoMdAddCircle size={130} className="" />
+                            <div>
+                                <h1 className="my-3 text-4xl font-bold">
+                                    Tambah Antrian
+                                </h1>
+                                <p className="my-3">
+                                    Halaman Nomor Antrian digunakan untuk
+                                    mengambil nomor antrian
+                                </p>
+                            </div>
+                        </div>
+                        <NavLink
+                            to="/queue/add"
+                            className="flex items-end justify-end"
+                        >
+                            <button className="flex items-center order-3 gap-3 px-4 py-2 text-white rounded-xl bg-primary">
+                                Tampilkan
+                                <IoIosArrowDroprightCircle size={25} />
+                            </button>
+                        </NavLink>
+                    </div>
                 </div>
-                <div className="col-span-1 p-6 text-left bg-white border-2 rounded-xl text-darks2 shadow-box border-darks2">
-                    <IoMdAddCircle size={100} className="text-purples" />
-                    <h1 className="my-3 text-4xl font-bold">Tambah Antrian</h1>
-                    <p className="my-3">
-                        Halaman Nomor Antrian digunakan untuk mengambil nomor
-                        antrian
-                    </p>
-                    <NavLink to="/queue/add">
-                        <button className="flex items-center gap-3 px-4 py-2 my-3 text-white rounded-lg bg-purples">
-                            Tampilkan <IoIosArrowDroprightCircle size={25} />
-                        </button>
-                    </NavLink>
-                </div>
-                <div className="col-span-1 p-6 text-left bg-white border-2 rounded-xl text-darks2 shadow-box border-darks2">
-                    <IoIosMic size={100} className="text-purples" />
-                    <h1 className="my-3 text-4xl font-bold">Loket</h1>
-                    <p className="my-3">
-                        Halaman Loket digunakan petugas loket untuk memanggil
-                        antrian pengunjung.
-                    </p>
-                    <NavLink to="/locket">
-                        <button className="flex items-center gap-3 px-4 py-2 my-3 text-white rounded-lg bg-purples">
-                            Tampilkan <IoIosArrowDroprightCircle size={25} />
-                        </button>
-                    </NavLink>
+                <div className="flex items-center order-2 col-span-2 row-span-2 p-6 text-left bg-primary text-secondary rounded-xl">
+                    <div className="flex flex-col">
+                        <div className="flex items-center gap-4">
+                            <IoIosMic size={130} className="" />
+                            <div>
+                                <h1 className="my-3 text-4xl font-bold">
+                                    Loket
+                                </h1>
+                                <p className="my-3">
+                                    Halaman Loket digunakan petugas loket untuk
+                                    memanggil antrian pengunjung.
+                                </p>
+                            </div>
+                        </div>
+                        <NavLink
+                            to="/locket"
+                            className="flex items-end justify-end"
+                        >
+                            <button className="flex items-center order-3 gap-3 px-4 py-2 mt-10 text-primary rounded-xl bg-secondary">
+                                Tampilkan
+                                <IoIosArrowDroprightCircle size={25} />
+                            </button>
+                        </NavLink>
+                    </div>
                 </div>
             </div>
-        </section>
-    );
+        </HeaderLayout>
+    )
 }

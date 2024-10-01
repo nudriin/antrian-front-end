@@ -13,13 +13,11 @@ export default {
 
       },
       colors: {
-        // purples: '#6147DB',
-        purples: '#1E7DBF',
-        oranges: '#F86767',
-        greens: '#12BC95',
-        teals: '#47C9D7',
-        darks: '#0C091C',
-        darks2: '#2B224F'
+        primary: "#171717",
+        secondary: "#D9E922",
+        highlight: '#446AEF',
+        muted: "#D8D8D8"
+
       },
       boxShadow: {
         'box': '8px 8px rgb(43, 34, 79)'

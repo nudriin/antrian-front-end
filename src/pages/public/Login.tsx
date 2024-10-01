@@ -6,80 +6,80 @@ import {
     Input,
     Button,
     useToast,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
+} from "@chakra-ui/react"
+import React, { useState } from "react"
+import { useCookies } from "react-cookie"
+import { useNavigate } from "react-router-dom"
+import moment from "moment"
 
 export default function Login() {
-    const [, setCookie] = useCookies(['auth']);
-    const [formData, setFormData] = useState({});
-    const [loading, setLoading] = useState(false);
-    const toast = useToast();
+    const [, setCookie] = useCookies(["auth"])
+    const [formData, setFormData] = useState({})
+    const [loading, setLoading] = useState(false)
+    const toast = useToast()
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.id]: e.target.value,
-        });
-    };
+        })
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            setLoading(true);
-            const response = await fetch('/api/users/login', {
-                method: 'POST',
+            setLoading(true)
+            const response = await fetch("/api/users/login", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
-            });
+            })
 
-            const data = await response.json();
+            const data = await response.json()
 
             if (!data.errors) {
-                console.log(data.data.token);
-                setLoading(false);
+                console.log(data.data.token)
+                setLoading(false)
 
-                const d = moment().add(1, 'm').utc(true).local().toDate();
-                setCookie('auth', data.data.token, {
+                const d = moment().add(1, "m").utc(true).local().toDate()
+                setCookie("auth", data.data.token, {
                     expires: d,
-                    path: '/', // Pastikan cookie tersedia di seluruh situs
-                    sameSite: 'strict', // Perlindungan terhadap CSRF
-                });
+                    path: "/", // Pastikan cookie tersedia di seluruh situs
+                    sameSite: "strict", // Perlindungan terhadap CSRF
+                })
 
                 toast({
-                    title: 'Sukses Login',
-                    description: 'Terimakasih!',
-                    status: 'success',
-                });
-                navigate('/');
+                    title: "Sukses Login",
+                    description: "Terimakasih!",
+                    status: "success",
+                })
+                navigate("/")
             } else {
                 toast({
-                    title: 'Gagal',
+                    title: "Gagal",
                     description: `${data.errors}`,
-                    status: 'error',
-                });
-                setLoading(false);
-                throw new Error(data.errors);
+                    status: "error",
+                })
+                setLoading(false)
+                throw new Error(data.errors)
             }
         } catch (error) {
-            setLoading(false);
-            console.log(error);
+            setLoading(false)
+            console.log(error)
         }
-    };
+    }
     return (
         <section>
-            <div className="min-h-screen flex justify-center items-center">
-                <div className="w-1/3 rounded-xl bg-white p-6 border-2 border-darks2 shadow-box">
-                    <h1 className="text-5xl font-semibold text-left my-2">
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="w-1/3 p-8 bg-white text-primary rounded-xl">
+                    <h1 className="my-2 text-5xl font-semibold text-left">
                         Login
                     </h1>
-                    <p className="text-left mb-6">
+                    <p className="mb-6 text-left">
                         Silahkan masukan data anda dengan benar
                     </p>
                     <form>
@@ -121,9 +121,9 @@ export default function Login() {
                                 isLoading={loading}
                                 onClick={handleSubmit}
                                 marginTop={5}
-                                backgroundColor="purples"
-                                color="white"
+                                backgroundColor="#171717"
                                 width="100%"
+                                color="#D9E922"
                                 type="submit"
                             >
                                 Login
@@ -133,5 +133,5 @@ export default function Login() {
                 </div>
             </div>
         </section>
-    );
+    )
 }
