@@ -75,7 +75,7 @@ export default function CreateLocketBtn() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-lime group h-full min-h-[140px] items-center rounded-2xl justify-center flex flex-col hover:border-primary hover:cursor-pointer gap-4 text-primary">
+                <Button className="bg-highlight group h-full min-h-[140px] items-center rounded-2xl justify-center flex flex-col hover:border-primary hover:cursor-pointer gap-4 text-secondary">
                     <BsFileEarmarkPlus className="w-8 h-8 group-hover:text-muted-foreground" />
                     <p className="font-semibold">Buat loket baru</p>
                 </Button>
@@ -110,7 +110,7 @@ export default function CreateLocketBtn() {
                     <Button
                         onClick={locket.handleSubmit(handleLocketSubmit)}
                         disabled={locket.formState.isSubmitting}
-                        className="w-full bg-lime text-primary"
+                        className="w-full bg-highlight text-secondary"
                     >
                         Simpan
                     </Button>

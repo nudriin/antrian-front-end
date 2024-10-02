@@ -14,6 +14,8 @@ import CreateLocketBtn from "../../components/CreateLocketBtn"
 import { BsEyeFill } from "react-icons/bs"
 import DeleteLocketBtn from "../../components/DeleteLocketBtn"
 import UpdateLocketBtn from "../../components/UpdateLocketBtn"
+import useTotalQueue from "../../hooks/useTotalQueue"
+import { IoMdPerson } from "react-icons/io"
 
 export default function AdminLocket() {
     return (
@@ -65,13 +67,20 @@ function LocketsCards() {
 }
 
 function LocketsCard({ locket }: { locket: Locket }) {
+    const total = useTotalQueue(locket.name || "")
     return (
         <Card className="h-full gap-4 rounded-2xl group border-primary/20 hover:cursor-pointer">
             <CardHeader>
-                <CardTitle className="flex items-center justify-center">
-                    <span className="font-semibold">
+                <CardTitle className="text-left">
+                    <div className="mb-2 font-semibold">
                         Loket {locket.name.toUpperCase()}
-                    </span>
+                    </div>
+                    <div className="flex items-center gap-3 mb-2 text-4xl font-bold text-primary">
+                        +{total?.total} <IoMdPerson size={40} />
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                        Total Antrian
+                    </div>
                 </CardTitle>
             </CardHeader>
             <CardFooter className="flex items-center justify-center gap-2">
