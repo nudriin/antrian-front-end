@@ -49,12 +49,15 @@ export default function AddQueue() {
         try {
             setLoading(true)
             const queuePromises = locket.map(async (value) => {
-                const response = await fetch(`/api/queue/${value.id}/total`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
+                const response = await fetch(
+                    `/api/queue/locket/${value.id}/total`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
 
                 return await response.json()
             })
