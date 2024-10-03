@@ -32,3 +32,9 @@ export interface QueueDistributionByLocket {
     locket: string
     count: number
 }
+
+export interface QueueStatsByLocketLastMonth {
+    [key: string]: {
+        [date: string]: number
+    }
+}

@@ -4,6 +4,7 @@ import { Card, CardContent } from "../../components/ui/card"
 import { QueueTotalStats } from "../../types/queue"
 import BarCharts from "../../components/BarCharts"
 import PieCharts from "../../components/PieCharts"
+import AdminReportTable from "../../components/AdminReportTable"
 
 export default function AdminDashboard() {
     return (
@@ -14,6 +15,9 @@ export default function AdminDashboard() {
                     <PieCharts />
                     <div className="col-span-2">
                         <BarCharts />
+                    </div>
+                    <div className="col-span-full">
+                        <AdminReportTable />
                     </div>
                 </div>
             </div>
