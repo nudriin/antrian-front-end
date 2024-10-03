@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { QueueStatsByLocketLastMonth } from "../types/queue"
 import { cn } from "../lib/utils"
+import { Button } from "./ui/button"
+import * as XLSX from "xlsx" // Tambahkan import untuk xlsx
 
 export default function AdminReportTable() {
     const [data, setData] = useState<QueueStatsByLocketLastMonth>()
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const tableRef = useRef<HTMLTableElement>(null)
 
     const getAllDailyStats = useCallback(async () => {
         try {
@@ -44,6 +47,14 @@ export default function AdminReportTable() {
     useEffect(() => {
         getAllDailyStats()
     }, [getAllDailyStats])
+
+    const exportToExcel = () => {
+        if (!tableRef.current) return
+        const dates = new Date().toLocaleDateString()
+        const table = tableRef.current
+        const wb = XLSX.utils.table_to_book(table)
+        XLSX.writeFile(wb, `Laporan ${dates} .xlsx`)
+    }
 
     if (isLoading) {
         return (
@@ -85,12 +96,15 @@ export default function AdminReportTable() {
 
     return (
         <div className="py-4 overflow-x-auto bg-white border shadow border-primary/20 rounded-2xl">
-            <div className="mb-6">
+            <div className="flex items-center justify-between mx-6 mb-6">
                 <h1 className="text-2xl font-semibold">
                     Distribusi Antrian per Tanggal
                 </h1>
+                <Button className="bg-highlight" onClick={exportToExcel}>
+                    Export (xlsx)
+                </Button>
             </div>
-            <table className="w-full min-w-[600px]">
+            <table className="w-full min-w-[600px]" ref={tableRef}>
                 <thead>
                     <tr>
                         <th className="p-2 border-b border-b-primary/20">
@@ -111,12 +125,12 @@ export default function AdminReportTable() {
                         <tr
                             key={date}
                             className={cn(
-                                "hover:bg-muted-foreground",
+                                "hover:bg-slate-300",
                                 index % 2 == 0 && "bg-muted"
                             )}
                         >
                             <td className="p-2 text-center border-b border-b-primary/20">
-                                {new Date(date).toLocaleDateString()}
+                                {date.substring(0, 10)}
                             </td>
                             {categories.map((category) => (
                                 <td
