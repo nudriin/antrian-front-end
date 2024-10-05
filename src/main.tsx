@@ -5,6 +5,7 @@ import "./index.css"
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import { CookiesProvider } from "react-cookie"
 import blue from "./theme/blue.ts"
+import { Toaster } from "./components/ui/toaster.tsx"
 const theme = extendTheme(blue)
 
 createRoot(document.getElementById("root")!).render(
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")!).render(
         >
             <CookiesProvider defaultSetOptions={{ path: "/" }}>
                 <App />
+                <Toaster />
             </CookiesProvider>
         </ChakraProvider>
     </StrictMode>

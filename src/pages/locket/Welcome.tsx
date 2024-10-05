@@ -5,7 +5,7 @@ export default function Welcome() {
     return (
         <LocketLayout>
             <div className="grid grid-cols-4 gap-4 p-6">
-                <div className="col-span-4 p-4 bg-primary text-secondary rounded-xl">
+                <div className="col-span-4 p-4 bg-primary text-lime rounded-xl">
                     <div className="flex items-center gap-4">
                         <TbAwardFilled size={80} className="" />
                         <div className="text-left">

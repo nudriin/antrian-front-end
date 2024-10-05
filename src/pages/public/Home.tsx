@@ -40,7 +40,7 @@ export default function Home() {
                                 </NavLink>
                             </div>
                         </div>
-                        <div className="order-3 col-span-2 row-span-1 p-6 text-left bg-secondary rounded-xl">
+                        <div className="order-3 col-span-2 row-span-1 p-6 text-left bg-lime rounded-xl">
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-4">
                                     <IoMdAddCircle size={130} className="" />
@@ -65,7 +65,7 @@ export default function Home() {
                                 </NavLink>
                             </div>
                         </div>
-                        <div className="flex items-center order-2 col-span-2 row-span-2 p-6 text-left bg-primary text-secondary rounded-xl">
+                        <div className="flex items-center order-2 col-span-2 row-span-2 p-6 text-left bg-primary text-lime rounded-xl">
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-4">
                                     <IoIosMic size={130} className="" />
@@ -84,7 +84,7 @@ export default function Home() {
                                     to="/locket"
                                     className="flex items-end justify-end"
                                 >
-                                    <button className="flex items-center order-3 gap-3 px-4 py-2 mt-10 text-primary rounded-xl bg-secondary">
+                                    <button className="flex items-center order-3 gap-3 px-4 py-2 mt-10 text-primary rounded-xl bg-lime">
                                         Tampilkan
                                         <IoIosArrowDroprightCircle size={25} />
                                     </button>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 export default function Footer() {
     return (
         <div className="bottom-0 z-50 mt-10 bg-primary rounded-2xl">
-            <ul className="flex items-center justify-between p-4 text-secondary">
+            <ul className="flex items-center justify-between p-4 text-lime">
                 <li>&copy; Dinas Pendidikan Kota Palangka Raya 2024</li>
                 <li className="text-sm text-muted/20">
                     Developed by{" "}

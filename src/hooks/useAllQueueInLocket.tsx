@@ -1,83 +1,86 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Queue } from '../types/queue';
-import { Locket } from '../types/locket';
-import { socket } from '../socket';
+import { useCallback, useEffect, useState } from "react"
+import { Queue } from "../types/queue"
+import { Locket } from "../types/locket"
+import { socket } from "../socket"
 
 export default function useAllQueueInLocket(name: string) {
-    const [locket, setLocket] = useState<Locket>();
-    const [queues, setQueues] = useState<Queue[]>();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [locket, setLocket] = useState<Locket>()
+    const [queues, setQueues] = useState<Queue[]>()
+    const [loading, setLoading] = useState<boolean>(false)
 
     const getLocketName = useCallback(async () => {
         try {
-            setLoading(true);
+            setLoading(true)
             const response = await fetch(`/api/locket/${name}`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-            });
+            })
 
-            const body = await response.json();
+            const body = await response.json()
 
             if (!body.errors) {
-                setLocket(body.data);
-                setLoading(false);
+                setLocket(body.data)
+                setLoading(false)
             } else {
-                setLoading(false);
-                throw new Error(body.errors);
+                setLoading(false)
+                throw new Error(body.errors)
             }
         } catch (error) {
-            setLoading(false);
-            console.log(error);
+            setLoading(false)
+            console.log(error)
         }
-    }, [name]);
+    }, [name])
 
     const getAllQueue = useCallback(async () => {
         try {
             if (!loading && locket?.id) {
-                const response = await fetch(`/api/queue/${locket?.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+                const response = await fetch(
+                    `/api/queue/locket/${locket?.id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
 
-                const body = await response.json();
+                const body = await response.json()
 
                 if (!body.errors) {
-                    setQueues(() => body.data);
-                    setLoading(false);
+                    setQueues(() => body.data)
+                    setLoading(false)
                 } else {
-                    setLoading(false);
-                    throw new Error(body.errors);
+                    setLoading(false)
+                    throw new Error(body.errors)
                 }
             }
         } catch (error) {
-            setLoading(false);
-            console.log(error);
+            setLoading(false)
+            console.log(error)
         }
-    }, [loading, locket]);
+    }, [loading, locket])
 
     useEffect(() => {
-        getLocketName();
-    }, [getLocketName]);
+        getLocketName()
+    }, [getLocketName])
 
     useEffect(() => {
-        getAllQueue();
-    }, [getAllQueue]);
+        getAllQueue()
+    }, [getAllQueue])
 
     useEffect(() => {
-        socket.connect();
+        socket.connect()
 
-        socket.on('allQueue', (data: Queue[] | []) => {
-            setQueues(data);
-        });
+        socket.on("allQueue", (data: Queue[] | []) => {
+            setQueues(data)
+        })
 
         return () => {
-            socket.disconnect();
-        };
-    }, []);
+            socket.disconnect()
+        }
+    }, [])
 
-    return queues;
+    return queues
 }

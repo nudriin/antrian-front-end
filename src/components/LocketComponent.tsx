@@ -38,7 +38,7 @@ export default function LocketComponent({
             <section>
                 <div className="grid grid-cols-4 gap-4 p-6">
                     <div className="col-span-4 p-4 border-2 bg-primary rounded-2xl">
-                        <div className="flex items-center gap-3 text-secondary">
+                        <div className="flex items-center gap-3 text-lime">
                             <TbAwardFilled size={80} />
                             <h1 className="text-4xl font-semibold">{title}</h1>
                         </div>
@@ -52,7 +52,7 @@ export default function LocketComponent({
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-1 p-4 border-2 text-primary bg-secondary rounded-2xl">
+                    <div className="col-span-1 p-4 border-2 text-primary bg-lime rounded-2xl">
                         <div className="flex items-center gap-3">
                             <TbUserCheck size={80} />
                             <div>

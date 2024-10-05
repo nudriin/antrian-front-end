@@ -49,12 +49,15 @@ export default function AddQueue() {
         try {
             setLoading(true)
             const queuePromises = locket.map(async (value) => {
-                const response = await fetch(`/api/queue/${value.id}/total`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
+                const response = await fetch(
+                    `/api/queue/locket/${value.id}/total`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
 
                 return await response.json()
             })
@@ -175,11 +178,7 @@ export default function AddQueue() {
                                     className={`
                                     ${index > 3 ? "col-span-2" : "col-span-1"}
                                     rounded-2xl
-                                    ${
-                                        index === 1
-                                            ? "bg-primary text-secondary"
-                                            : ""
-                                    }
+                                    ${index === 1 ? "bg-primary text-lime" : ""}
                                     ${
                                         index === 2
                                             ? "bg-highlight text-white"
@@ -187,7 +186,7 @@ export default function AddQueue() {
                                     }
                                     ${
                                         index === locket.length - 1
-                                            ? "bg-secondary text-primary"
+                                            ? "bg-lime text-primary"
                                             : ""
                                     }
                                     ${
@@ -223,7 +222,7 @@ export default function AddQueue() {
                                         disabled={loading}
                                         className={`flex gap-2 items-center justify-center mx-auto mb-4 py-3 px-3 rounded-full font-semibold hover:bg-muted ${
                                             index === 1
-                                                ? "bg-secondary text-primary"
+                                                ? "bg-lime text-primary"
                                                 : ""
                                         }
                                     ${

@@ -43,12 +43,15 @@ export default function Queue() {
         try {
             setLoading(true)
             const queuePromises = locket.map(async (value) => {
-                const response = await fetch(`/api/queue/${value.id}/current`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
+                const response = await fetch(
+                    `/api/queue/locket/${value.id}/current`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
 
                 return await response.json()
             })
@@ -112,11 +115,7 @@ export default function Queue() {
                                     className={`
                                     ${index > 3 ? "col-span-2" : "col-span-1"}
                                     rounded-2xl
-                                    ${
-                                        index === 1
-                                            ? "bg-primary text-secondary"
-                                            : ""
-                                    }
+                                    ${index === 1 ? "bg-primary text-lime" : ""}
                                     ${
                                         index === 2
                                             ? "bg-highlight text-white"
@@ -124,7 +123,7 @@ export default function Queue() {
                                     }
                                     ${
                                         index === locket.length - 1
-                                            ? "bg-secondary text-primary"
+                                            ? "bg-lime text-primary"
                                             : ""
                                     }
                                     ${

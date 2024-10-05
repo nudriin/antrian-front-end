@@ -1,84 +1,87 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Locket } from '../types/locket';
-import { socket } from '../socket';
-import { QueueAggregateResponse } from '../types/queue';
+import { useCallback, useEffect, useState } from "react"
+import { Locket } from "../types/locket"
+import { socket } from "../socket"
+import { QueueAggregateResponse } from "../types/queue"
 
 export default function useNextQueue(name: string) {
-    const [locket, setLocket] = useState<Locket>();
-    const [next, setNext] = useState<QueueAggregateResponse>();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [locket, setLocket] = useState<Locket>()
+    const [next, setNext] = useState<QueueAggregateResponse>()
+    const [loading, setLoading] = useState<boolean>(false)
 
     const getLocketName = useCallback(async () => {
         try {
-            setLoading(true);
+            setLoading(true)
             const response = await fetch(`/api/locket/${name}`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-            });
+            })
 
-            const body = await response.json();
+            const body = await response.json()
 
             if (!body.errors) {
-                setLocket(body.data);
-                setLoading(false);
+                setLocket(body.data)
+                setLoading(false)
             } else {
-                setLoading(false);
-                throw new Error(body.errors);
+                setLoading(false)
+                throw new Error(body.errors)
             }
         } catch (error) {
-            setLoading(false);
-            console.log(error);
+            setLoading(false)
+            console.log(error)
         }
-    }, [name]);
+    }, [name])
 
     const getNextQueue = useCallback(async () => {
         try {
             if (!loading && locket?.id) {
-                const response = await fetch(`/api/queue/${locket?.id}/next`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+                const response = await fetch(
+                    `/api/queue/locket/${locket?.id}/next`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
 
-                const body = await response.json();
+                const body = await response.json()
                 if (!body.errors) {
-                    setNext(body.data);
-                    setLoading(false);
+                    setNext(body.data)
+                    setLoading(false)
                 } else {
-                    setLoading(false);
-                    throw new Error(body.errors);
+                    setLoading(false)
+                    throw new Error(body.errors)
                 }
             } else {
-                setLoading(false);
-                return;
+                setLoading(false)
+                return
             }
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    }, [loading, locket]);
+    }, [loading, locket])
 
     useEffect(() => {
-        getLocketName();
-    }, [getLocketName]);
+        getLocketName()
+    }, [getLocketName])
 
     useEffect(() => {
-        getNextQueue();
-    }, [getNextQueue]);
+        getNextQueue()
+    }, [getNextQueue])
 
     useEffect(() => {
-        socket.connect();
+        socket.connect()
 
-        socket.on('nextQueue', (data) => {
-            setNext(data);
-        });
+        socket.on("nextQueue", (data) => {
+            setNext(data)
+        })
 
         return () => {
-            socket.disconnect();
-        };
-    }, []);
+            socket.disconnect()
+        }
+    }, [])
 
-    return next;
+    return next
 }
