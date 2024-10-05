@@ -13,12 +13,12 @@ export default function AdminSidebar() {
             </NavLink>
             <ul className="space-y-4 text-left">
                 <NavLink to="/dashboard">
-                    <li className="flex items-center gap-2 px-4 py-3 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
+                    <li className="flex items-center gap-2 px-4 py-3 mb-2 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
                         <RiDashboardFill /> Dashboard
                     </li>
                 </NavLink>
                 <NavLink to="/dashboard/locket">
-                    <li className="flex items-center gap-2 px-4 py-3 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
+                    <li className="flex items-center gap-2 px-4 py-3 mb-2 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
                         <TbAppWindowFilled /> Locket
                     </li>
                 </NavLink>
