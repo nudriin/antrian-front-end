@@ -4,11 +4,24 @@ import {
     TbUserPlus,
     TbUser,
     TbAwardFilled,
+    TbTrashXFilled,
 } from "react-icons/tb"
 import { Queue, QueueAggregateResponse } from "../types/queue"
 import { Locket } from "../types/locket"
 import LocketLayout from "./LocketLayout"
 import QueueTable from "./QueueTable" // Import the new QueueTable component
+import { Button } from "./ui/button"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "./ui/alert-dialog"
 
 export default function LocketComponent({
     title,
@@ -21,6 +34,7 @@ export default function LocketComponent({
     locketCode,
     handleCall,
     textToSpeech,
+    handleReset,
 }: {
     title: string
     total: QueueAggregateResponse | undefined
@@ -32,6 +46,7 @@ export default function LocketComponent({
     locketCode: string
     handleCall: (e: React.MouseEvent<HTMLButtonElement>) => void
     textToSpeech: (text: string) => void
+    handleReset: () => void
 }) {
     return (
         <LocketLayout>
@@ -84,6 +99,45 @@ export default function LocketComponent({
                                 <p className="text-darks2">Sisa Antrian</p>
                             </div>
                         </div>
+                    </div>
+                    <div className="text-right col-span-full">
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button className="gap-2 bg-red-500">
+                                    Reset Antrian <TbTrashXFilled />
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Kamu yakin ingin mereset anntrian pada
+                                        loket ini?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        <span className="text-red-500">
+                                            Dengan mereset antrian pada loket
+                                            ini, antrian untuk hari ini akan
+                                            terhapus sepenuhnya pada loket ini
+                                        </span>
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Batal</AlertDialogCancel>
+                                    <AlertDialogAction
+                                        className="bg-red-500"
+                                        onClick={handleReset}
+                                    >
+                                        Reset
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                        {/* <Button
+                            className="bg-destructive text-secondary"
+                            onClick={handleReset}
+                        >
+                            Reset Antrian
+                        </Button> */}
                     </div>
                     <div className="col-span-4">
                         {queues && (

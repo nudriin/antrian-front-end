@@ -102,6 +102,45 @@ export default function Locket() {
         }
     }
 
+    const handleReset = async () => {
+        try {
+            const response = await fetch(
+                `/api/queue/locket/${locket?.id}/reset`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+
+            const body = await response.json()
+            if (!body.errors) {
+                socket.emit("getTotalQueue", locket?.id)
+                socket.emit("getRemainQueue", locket?.id)
+                socket.emit("getNextQueue", locket?.id)
+                socket.emit("getCurrentQueue", locket?.id)
+                socket.emit("getAllQueue", locket?.id)
+                toast({
+                    title: "Berhasil",
+                    description: `Antrian berhasil di reset`,
+                    status: "success",
+                })
+            } else {
+                toast({
+                    title: "Gagal",
+                    description: `${body.errors}`,
+                    status: "error",
+                })
+                console.log(body.errors)
+                throw new Error(body.errors)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const locketCode = getLocketCodeFromName(locketName)
 
     return (
@@ -116,6 +155,7 @@ export default function Locket() {
             locketCode={locketCode}
             handleCall={handleCall}
             textToSpeech={textToSpeech}
+            handleReset={handleReset}
         />
     )
 }
