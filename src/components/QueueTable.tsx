@@ -29,7 +29,7 @@ const QueueTable = ({
     handleCall: (e: React.MouseEvent<HTMLButtonElement>) => void
     handlePending: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) => {
-    const { textToSpeech } = useTextToSpeech()
+    const { isReady, textToSpeech } = useTextToSpeech()
     const columns = [
         columnHelper.accessor("queue_number", {
             cell: (info) => (
@@ -53,10 +53,13 @@ const QueueTable = ({
                         onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                             const text = `Nomor antrian, ${locketCode},${String(
                                 info.row.original.queue_number
-                            ).padStart(2, "0")}, silahkan menuju loket, ${
+                            ).padStart(
+                                2,
+                                "0"
+                            )}, silahkan menuju loket, ${getFullLocketName(
                                 locket?.name
-                            }.`
-                            textToSpeech(text)
+                            )}.`
+                            if (isReady) textToSpeech(text)
                             handleCall(e)
                         }}
                         value={info.getValue()}
@@ -174,6 +177,25 @@ const QueueTable = ({
             </div>
         </div>
     )
+}
+
+const getFullLocketName = (shortName: string | undefined): string => {
+    switch (shortName?.toUpperCase()) {
+        case "SD":
+            return "S D"
+        case "PAUD":
+            return "PAUD"
+        case "PTK":
+            return "PTK"
+        case "SMP":
+            return "SMP"
+        case "UMPEG":
+            return "Umum Kepegawaian"
+        case "KEUANGAN":
+            return "Keuangan"
+        default:
+            return shortName || ""
+    }
 }
 
 export default QueueTable

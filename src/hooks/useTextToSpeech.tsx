@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import tingtung from "../assets/audio/tingtung.mp3"
 
 // Fungsi text-to-speech untuk Bahasa Indonesia
 export const textToSpeech = (text: string) => {
@@ -27,14 +28,32 @@ export const textToSpeech = (text: string) => {
         utterance.pitch = 1.0 // Nada suara (1.0 adalah normal)
         utterance.volume = 1.0 // Volume (0.0 sampai 1.0)
 
-        // Jalankan text-to-speech
-        window.speechSynthesis.speak(utterance)
-
-        // Return promise yang resolve ketika speech selesai
+        // Mainkan audio tingtung terlebih dahulu
         return new Promise((resolve, reject) => {
-            utterance.onend = () => resolve(true)
-            utterance.onerror = () =>
-                reject(new Error("Speech synthesis failed"))
+            const audio = new Audio(tingtung)
+
+            // Event handler ketika audio selesai diputar
+            audio.onended = () => {
+                // Setelah audio selesai, jalankan text-to-speech
+                window.speechSynthesis.speak(utterance)
+
+                // Event handlers untuk text-to-speech
+                utterance.onend = () => resolve(true)
+                utterance.onerror = () =>
+                    reject(new Error("Speech synthesis failed"))
+            }
+
+            // Event handler jika audio gagal dimainkan
+            audio.onerror = () => {
+                reject(new Error("Audio playback failed"))
+            }
+
+            // Mulai memainkan audio
+            audio.play().catch((error) => {
+                console.error("Error playing audio:", error)
+                // Jika audio gagal, tetap jalankan text-to-speech
+                window.speechSynthesis.speak(utterance)
+            })
         })
     } else {
         console.error("Browser tidak mendukung Web Speech API")
