@@ -10,12 +10,16 @@ import { UserResponse } from "../../types/payload"
 import { useCallback, useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import AdminLayout from "../../components/AdminLayout"
+import AdminAddUserBtn from "../../components/AdminAddUserBtn"
 
 const columnHelper = createColumnHelper<UserResponse>()
 export default function AdminUsers() {
     return (
         <AdminLayout>
             <div className="p-6">
+                <div className="flex justify-end mb-2">
+                    <AdminAddUserBtn />
+                </div>
                 <UsersTable />
             </div>
         </AdminLayout>
@@ -58,13 +62,13 @@ function UsersTable() {
             cell: (info) => <span className="">{info.getValue()}</span>,
             header: () => <span>ID</span>,
         }),
-        columnHelper.accessor("email", {
-            cell: (info) => <span className="">{info.getValue()}</span>,
-            header: () => <span>Email</span>,
-        }),
         columnHelper.accessor("name", {
             cell: (info) => <span className="">{info.getValue()}</span>,
             header: () => <span>Nama</span>,
+        }),
+        columnHelper.accessor("email", {
+            cell: (info) => <span className="">{info.getValue()}</span>,
+            header: () => <span>Email</span>,
         }),
         columnHelper.accessor("role", {
             cell: (info) => <span className="">{info.getValue()}</span>,
