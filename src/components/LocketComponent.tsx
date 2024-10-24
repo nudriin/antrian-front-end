@@ -33,7 +33,6 @@ export default function LocketComponent({
     queues,
     locketCode,
     handleCall,
-    textToSpeech,
     handleReset,
 }: {
     title: string
@@ -45,7 +44,6 @@ export default function LocketComponent({
     queues: Queue[] | undefined
     locketCode: string
     handleCall: (e: React.MouseEvent<HTMLButtonElement>) => void
-    textToSpeech: (text: string) => void
     handleReset: () => void
 }) {
     return (
@@ -146,7 +144,6 @@ export default function LocketComponent({
                                 locketCode={locketCode}
                                 locket={locket}
                                 handleCall={handleCall}
-                                textToSpeech={textToSpeech}
                             />
                         )}
                     </div>

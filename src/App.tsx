@@ -12,6 +12,7 @@ import Welcome from "./pages/locket/Welcome"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import AdminLocket from "./pages/admin/AdminLocket"
 import MetabaseDashboard from "./pages/admin/MetabaseDashboard"
+import AdminUsers from "./pages/admin/AdminUsers"
 
 function App() {
     return (
@@ -35,6 +36,7 @@ function App() {
                     element={<MetabaseDashboard />}
                 />
                 <Route path="/dashboard/locket" element={<AdminLocket />} />
+                <Route path="/dashboard/users" element={<AdminUsers />} />
             </Routes>
         </BrowserRouter>
     )

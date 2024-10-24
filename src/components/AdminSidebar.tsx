@@ -22,6 +22,11 @@ export default function AdminSidebar() {
                         <TbAppWindowFilled /> Locket
                     </li>
                 </NavLink>
+                <NavLink to="/dashboard/users">
+                    <li className="flex items-center gap-2 px-4 py-3 mb-2 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
+                        <TbAppWindowFilled /> User
+                    </li>
+                </NavLink>
             </ul>
         </div>
     )

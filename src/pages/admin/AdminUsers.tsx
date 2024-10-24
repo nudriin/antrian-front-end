@@ -1,4 +1,3 @@
-import React from "react"
 import {
     useReactTable,
     getCoreRowModel,
@@ -7,66 +6,78 @@ import {
     flexRender,
     createColumnHelper,
 } from "@tanstack/react-table"
-import { IoIosMegaphone } from "react-icons/io"
-import { Queue } from "../types/queue"
-import { Locket } from "../types/locket"
-import textToSpeech from "../helper/textToSpeech"
+import { UserResponse } from "../../types/payload"
+import { useCallback, useEffect, useState } from "react"
+import { useCookies } from "react-cookie"
+import AdminLayout from "../../components/AdminLayout"
 
-const columnHelper = createColumnHelper<Queue>()
+const columnHelper = createColumnHelper<UserResponse>()
+export default function AdminUsers() {
+    return (
+        <AdminLayout>
+            <div className="p-6">
+                <UsersTable />
+            </div>
+        </AdminLayout>
+    )
+}
 
-const QueueTable = ({
-    queues,
-    locketCode,
-    locket,
-    handleCall,
-}: {
-    queues: Queue[]
-    locketCode: string
-    locket: Locket | undefined
-    handleCall: (e: React.MouseEvent<HTMLButtonElement>) => void
-}) => {
+function UsersTable() {
+    const [users, setUsers] = useState<UserResponse[]>([])
+    const [cookie] = useCookies(["auth"])
+    const token = cookie.auth
+
+    const getAllUsers = useCallback(async () => {
+        try {
+            const response = await fetch("/api/users", {
+                method: "GET",
+                headers: {
+                    "content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+            const body = await response.json()
+
+            if (!body.errors) {
+                setUsers(body.data)
+            } else {
+                throw new Error(body.errors)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }, [token])
+
+    useEffect(() => {
+        getAllUsers()
+    }, [getAllUsers])
+
     const columns = [
-        columnHelper.accessor("queue_number", {
-            cell: (info) => (
-                <span className="text-xl font-semibold">
-                    {locketCode}
-                    {String(info.getValue()).padStart(2, "0")}
-                </span>
-            ),
-            header: () => <span>Nomor Antrian</span>,
+        columnHelper.accessor("id", {
+            cell: (info) => <span className="">{info.getValue()}</span>,
+            header: () => <span>ID</span>,
+        }),
+        columnHelper.accessor("email", {
+            cell: (info) => <span className="">{info.getValue()}</span>,
+            header: () => <span>Email</span>,
+        }),
+        columnHelper.accessor("name", {
+            cell: (info) => <span className="">{info.getValue()}</span>,
+            header: () => <span>Nama</span>,
+        }),
+        columnHelper.accessor("role", {
+            cell: (info) => <span className="">{info.getValue()}</span>,
+            header: () => <span>Role</span>,
         }),
         columnHelper.accessor("id", {
-            cell: (info) => (
-                <div className="flex items-center justify-center p-2">
-                    <button
-                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                            const text = `Nomor antrian, ${locketCode},${String(
-                                info.row.original.queue_number
-                            ).padStart(2, "0")}, silahkan menuju loket, ${
-                                locket?.name
-                            }`
-                            textToSpeech(text)
-                            handleCall(e)
-                        }}
-                        value={info.getValue()}
-                    >
-                        <IoIosMegaphone
-                            size={35}
-                            className={`p-2 text-primary rounded-full cursor-pointer ${
-                                info.row.original.updatedAt
-                                    ? "bg-muted"
-                                    : "bg-lime"
-                            } hover:scale-105`}
-                        />
-                    </button>
-                </div>
-            ),
-            header: () => <span>Panggil</span>,
+            cell: (info) => <span className="">{info.getValue()}</span>,
+            header: () => <span>Aksi</span>,
         }),
     ]
 
     const table = useReactTable({
-        data: queues,
+        data: users,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -102,12 +113,12 @@ const QueueTable = ({
                     {table.getRowModel().rows.map((row) => (
                         <tr
                             key={row.id}
-                            className="border-2 rounded-lg border-primary"
+                            className="text-left border-2 rounded-lg border-primary"
                         >
                             {row.getVisibleCells().map((cell) => (
                                 <td
                                     key={cell.id}
-                                    className="border-2 rounded-lg border-primary"
+                                    className="px-2 border-2 rounded-lg border-primary"
                                 >
                                     {flexRender(
                                         cell.column.columnDef.cell,
@@ -142,5 +153,3 @@ const QueueTable = ({
         </div>
     )
 }
-
-export default QueueTable

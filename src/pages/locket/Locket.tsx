@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import LocketComponent from "../../components/LocketComponent"
-import textToSpeech from "../../helper/textToSpeech"
 import { socket } from "../../socket"
 import { Locket as LocketType } from "../../types/locket"
 import { Queue, QueueAggregateResponse } from "../../types/queue"
@@ -154,7 +153,6 @@ export default function Locket() {
             queues={queues}
             locketCode={locketCode}
             handleCall={handleCall}
-            textToSpeech={textToSpeech}
             handleReset={handleReset}
         />
     )
