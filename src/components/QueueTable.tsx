@@ -8,9 +8,11 @@ import {
     createColumnHelper,
 } from "@tanstack/react-table"
 import { IoIosMegaphone } from "react-icons/io"
+import { GrStatusPlaceholderSmall } from "react-icons/gr"
 import { Queue } from "../types/queue"
 import { Locket } from "../types/locket"
 import textToSpeech from "../helper/textToSpeech"
+import { cn } from "../lib/utils"
 
 const columnHelper = createColumnHelper<Queue>()
 
@@ -19,16 +21,24 @@ const QueueTable = ({
     locketCode,
     locket,
     handleCall,
+    handlePending,
 }: {
     queues: Queue[]
     locketCode: string
     locket: Locket | undefined
     handleCall: (e: React.MouseEvent<HTMLButtonElement>) => void
+    handlePending: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) => {
     const columns = [
         columnHelper.accessor("queue_number", {
             cell: (info) => (
-                <span className="text-xl font-semibold">
+                <span
+                    className={cn(
+                        "text-xl font-semibold",
+                        info.row.original.status === "PENDING" &&
+                            "text-slate-400"
+                    )}
+                >
                     {locketCode}
                     {String(info.getValue()).padStart(2, "0")}
                 </span>
@@ -62,6 +72,28 @@ const QueueTable = ({
                 </div>
             ),
             header: () => <span>Panggil</span>,
+        }),
+        columnHelper.accessor("id", {
+            cell: (info) => (
+                <div className="flex items-center justify-center p-2">
+                    <button
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            handlePending(e)
+                        }}
+                        value={info.getValue()}
+                    >
+                        <GrStatusPlaceholderSmall
+                            size={35}
+                            className={`p-2 text-primary rounded-full cursor-pointer ${
+                                info.row.original.status === "PENDING"
+                                    ? "bg-muted"
+                                    : "bg-destructive text-white"
+                            } hover:scale-105`}
+                        />
+                    </button>
+                </div>
+            ),
+            header: () => <span>Tahan</span>,
         }),
     ]
 

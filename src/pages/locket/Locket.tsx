@@ -101,6 +101,45 @@ export default function Locket() {
         }
     }
 
+    const handlePending = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+
+        try {
+            const id = e.currentTarget.value
+            const response = await fetch(`/api/queue/${id}/pending`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+            const body = await response.json()
+            if (!body.errors) {
+                socket.emit("getRemainQueue", locket?.id)
+                socket.emit("getNextQueue", locket?.id)
+                socket.emit("getCurrentQueue", locket?.id)
+                socket.emit("getAllQueue", locket?.id)
+                console.log(body)
+                toast({
+                    title: "Berhasil",
+                    description: `Antrian A${body.data.queue_number} berhasil di tahan!`,
+                    status: "success",
+                })
+            } else {
+                toast({
+                    title: "Gagal",
+                    description: `${body.errors}`,
+                    status: "error",
+                })
+                console.log(body.errors)
+                throw new Error(body.errors)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleReset = async () => {
         try {
             const response = await fetch(
@@ -153,6 +192,7 @@ export default function Locket() {
             queues={queues}
             locketCode={locketCode}
             handleCall={handleCall}
+            handlePending={handlePending}
             handleReset={handleReset}
         />
     )
