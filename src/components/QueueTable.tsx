@@ -11,8 +11,8 @@ import { IoIosMegaphone } from "react-icons/io"
 import { GrStatusPlaceholderSmall } from "react-icons/gr"
 import { Queue } from "../types/queue"
 import { Locket } from "../types/locket"
-import textToSpeech from "../helper/textToSpeech"
 import { cn } from "../lib/utils"
+import { useTextToSpeech } from "../hooks/useTextToSpeech"
 
 const columnHelper = createColumnHelper<Queue>()
 
@@ -29,6 +29,7 @@ const QueueTable = ({
     handleCall: (e: React.MouseEvent<HTMLButtonElement>) => void
     handlePending: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) => {
+    const { textToSpeech } = useTextToSpeech()
     const columns = [
         columnHelper.accessor("queue_number", {
             cell: (info) => (
@@ -54,7 +55,7 @@ const QueueTable = ({
                                 info.row.original.queue_number
                             ).padStart(2, "0")}, silahkan menuju loket, ${
                                 locket?.name
-                            }`
+                            }.`
                             textToSpeech(text)
                             handleCall(e)
                         }}

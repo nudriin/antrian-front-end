@@ -4,10 +4,11 @@ export default function textToSpeech(text: string) {
     try {
         const utterance: SpeechSynthesisUtterance =
             new SpeechSynthesisUtterance(text)
-        const voices = speechSynthesis.getVoices()
+        const voices = synth.getVoices()
         const voice =
             voices.find((v) => v.name === "Google Bahasa Indonesia") ?? null
         utterance.voice = voice
+        console.log(voice)
         utterance.rate = 0.9
         utterance.pitch = 1
         utterance.volume = 1
