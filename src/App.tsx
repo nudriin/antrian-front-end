@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard"
 import AdminLocket from "./pages/admin/AdminLocket"
 import MetabaseDashboard from "./pages/admin/MetabaseDashboard"
 import AdminUsers from "./pages/admin/AdminUsers"
+import AdminPrivateRoute from "./components/AdminPrivateRoute"
 
 function App() {
     return (
@@ -30,13 +31,15 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/queue/add" element={<AddQueue />} />
                 </Route>
-                <Route path="/dashboard" element={<AdminDashboard />} />
-                <Route
-                    path="/dashboard/admin"
-                    element={<MetabaseDashboard />}
-                />
-                <Route path="/dashboard/locket" element={<AdminLocket />} />
-                <Route path="/dashboard/users" element={<AdminUsers />} />
+                <Route element={<AdminPrivateRoute />}>
+                    <Route path="/dashboard" element={<AdminDashboard />} />
+                    <Route
+                        path="/dashboard/admin"
+                        element={<MetabaseDashboard />}
+                    />
+                    <Route path="/dashboard/locket" element={<AdminLocket />} />
+                    <Route path="/dashboard/users" element={<AdminUsers />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     )
