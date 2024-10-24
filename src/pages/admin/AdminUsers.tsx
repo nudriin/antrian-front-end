@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import AdminLayout from "../../components/AdminLayout"
 import AdminAddUserBtn from "../../components/AdminAddUserBtn"
+import AdminDeleteUserBtn from "../../components/AdminDeleteUserBtn"
 
 const columnHelper = createColumnHelper<UserResponse>()
 export default function AdminUsers() {
@@ -75,7 +76,7 @@ function UsersTable() {
             header: () => <span>Role</span>,
         }),
         columnHelper.accessor("id", {
-            cell: (info) => <span className="">{info.getValue()}</span>,
+            cell: (info) => <AdminDeleteUserBtn id={info.getValue()} />,
             header: () => <span>Aksi</span>,
         }),
     ]
@@ -117,12 +118,12 @@ function UsersTable() {
                     {table.getRowModel().rows.map((row) => (
                         <tr
                             key={row.id}
-                            className="text-left border-2 rounded-lg border-primary"
+                            className="border-2 rounded-lg border-primary"
                         >
                             {row.getVisibleCells().map((cell) => (
                                 <td
                                     key={cell.id}
-                                    className="px-2 border-2 rounded-lg border-primary"
+                                    className="py-2 border-2 rounded-lg border-primary"
                                 >
                                     {flexRender(
                                         cell.column.columnDef.cell,

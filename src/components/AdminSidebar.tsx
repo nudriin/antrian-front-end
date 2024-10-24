@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom"
 import pky from "../assets/images/web/pky.png"
 import { RiDashboardFill } from "react-icons/ri"
 import { TbAppWindowFilled } from "react-icons/tb"
+import { IoMdPerson } from "react-icons/io"
 
 export default function AdminSidebar() {
     return (
@@ -24,7 +25,7 @@ export default function AdminSidebar() {
                 </NavLink>
                 <NavLink to="/dashboard/users">
                     <li className="flex items-center gap-2 px-4 py-3 mb-2 font-bold font-rubik hover:bg-primary hover:text-white hover:rounded-full">
-                        <TbAppWindowFilled /> User
+                        <IoMdPerson /> User
                     </li>
                 </NavLink>
             </ul>
