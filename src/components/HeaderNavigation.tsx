@@ -55,6 +55,14 @@ export default function HeaderNavigation({
                     >
                         <li>Locket</li>
                     </NavLink>
+                    <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) =>
+                            isActive ? activeLink : nonActiveLink
+                        }
+                    >
+                        <li>Dashboard</li>
+                    </NavLink>
                     <li className={nonActiveLinkLogout}>
                         <Logout />
                     </li>
