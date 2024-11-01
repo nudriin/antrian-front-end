@@ -14,7 +14,7 @@ export default function Home() {
         <>
             <HeaderNavigation>
                 <HeaderLayout>
-                    <div className="grid max-h-[120vh] grid-cols-4 grid-rows-2 gap-4">
+                    <div className="grid grid-cols-1 max-h-[120vh] lg:grid-cols-4 lg:grid-rows-2 gap-4">
                         <div className="order-1 col-span-2 row-span-1 p-6 text-left bg-white rounded-xl">
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-4">

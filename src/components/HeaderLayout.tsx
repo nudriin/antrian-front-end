@@ -19,11 +19,15 @@ export default function HeaderLayout({ children }: { children: ReactNode }) {
     })
     return (
         <>
-            <div className="flex items-center col-span-4 p-8 mb-4 space-x-8 text-left bg-white text-primary rounded-xl">
-                <Link to="/">
-                    <img className="h-48" src={pky} alt="" />
+            <div className="items-center gap-2 p-4 mb-4 bg-white md:space-x-8 md:text-left md:p-8 md:flex text-primary rounded-xl">
+                <Link to="/" className="w-1/4">
+                    <img
+                        className="h-32 mx-auto md:h-36 lg:h-48"
+                        src={pky}
+                        alt=""
+                    />
                 </Link>
-                <div>
+                <div className="">
                     <p>{date}</p>
                     <h1 className="my-6 text-4xl font-bold">
                         Antri Helu Dinas Pendidikan Kota Palangka Raya
