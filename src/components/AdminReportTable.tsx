@@ -6,8 +6,12 @@ import * as XLSX from "xlsx" // Tambahkan import untuk xlsx
 
 export default function AdminReportTable() {
     const [data, setData] = useState<QueueStatsByLocketLastMonth>()
+    const [dataSixMonths, setDataSixMonths] =
+        useState<QueueStatsByLocketLastMonth>()
+    const [dataAllTme, setDataAllTime] = useState<QueueStatsByLocketLastMonth>()
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [selectedRange, setSelectedRange] = useState("30_days") // Tambah state untuk filter
     const tableRef = useRef<HTMLTableElement>(null)
 
     const getAllDailyStats = useCallback(async () => {
@@ -44,9 +48,83 @@ export default function AdminReportTable() {
         }
     }, [])
 
+    const getAllLastSixMonthStats = useCallback(async () => {
+        try {
+            setIsLoading(true)
+            setError(null)
+            const response = await fetch(
+                "/api/queue/all/queue-stats-last-six-month",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            const body = await response.json()
+            if (!body.errors) {
+                setDataSixMonths(body.data)
+            } else {
+                throw new Error(body.errors)
+            }
+        } catch (error) {
+            console.error(error)
+            setError(
+                error instanceof Error ? error.message : "An error occurred"
+            )
+        } finally {
+            setIsLoading(false)
+        }
+    }, [])
+
+    const getAllTime = useCallback(async () => {
+        try {
+            setIsLoading(true)
+            setError(null)
+            const response = await fetch(
+                "/api/queue/all/queue-stats-all-time",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            const body = await response.json()
+            if (!body.errors) {
+                setDataAllTime(body.data)
+            } else {
+                throw new Error(body.errors)
+            }
+        } catch (error) {
+            console.error(error)
+            setError(
+                error instanceof Error ? error.message : "An error occurred"
+            )
+        } finally {
+            setIsLoading(false)
+        }
+    }, [])
+
     useEffect(() => {
-        getAllDailyStats()
-    }, [getAllDailyStats])
+        if (selectedRange === "30_days") {
+            getAllDailyStats()
+        } else if (selectedRange === "6_months") {
+            getAllLastSixMonthStats()
+        } else if (selectedRange === "all_time") {
+            getAllTime()
+        }
+    }, [getAllDailyStats, getAllLastSixMonthStats, getAllTime, selectedRange])
 
     const exportToExcel = () => {
         if (!tableRef.current) return
@@ -54,6 +132,20 @@ export default function AdminReportTable() {
         const table = tableRef.current
         const wb = XLSX.utils.table_to_book(table)
         XLSX.writeFile(wb, `Laporan ${dates} .xlsx`)
+    }
+
+    const handleRangeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedRange(event.target.value)
+    }
+
+    // Tentukan data berdasarkan rentang waktu yang dipilih
+    let displayedData
+    if (selectedRange === "30_days") {
+        displayedData = data
+    } else if (selectedRange === "6_months") {
+        displayedData = dataSixMonths
+    } else if (selectedRange === "all_time") {
+        displayedData = dataAllTme
     }
 
     if (isLoading) {
@@ -76,7 +168,7 @@ export default function AdminReportTable() {
         )
     }
 
-    if (!data || Object.keys(data).length === 0) {
+    if (!displayedData || Object.keys(displayedData).length === 0) {
         return (
             <div className="p-4 bg-white border-b border-b-primary/20 rounded-2xl">
                 <div className="flex items-center justify-center h-40">
@@ -88,21 +180,34 @@ export default function AdminReportTable() {
 
     const allDates = [
         ...new Set(
-            Object.values(data).flatMap((category) => Object.keys(category))
+            Object.values(displayedData).flatMap((category) =>
+                Object.keys(category)
+            )
         ),
     ].sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
 
-    const categories = Object.keys(data)
+    const categories = Object.keys(displayedData)
 
     return (
         <div className="py-4 overflow-x-auto bg-white border shadow border-primary/20 rounded-2xl">
             <div className="flex items-center justify-between mx-6 mb-6">
                 <h1 className="text-2xl font-semibold">
-                    Distribusi Antrian per Tanggal
+                    Tabel Distribusi Antrian
                 </h1>
-                <Button className="bg-highlight" onClick={exportToExcel}>
-                    Export (xlsx)
-                </Button>
+                <div className="flex items-center space-x-4">
+                    <select
+                        value={selectedRange}
+                        onChange={handleRangeChange}
+                        className="p-1 border-2 rounded-lg border-primary"
+                    >
+                        <option value="30_days">30 Hari Terakhir</option>
+                        <option value="6_months">6 Bulan Terakhir</option>
+                        <option value="all_time">Semua</option>
+                    </select>
+                    <Button className="bg-highlight" onClick={exportToExcel}>
+                        Export (xlsx)
+                    </Button>
+                </div>
             </div>
             <table className="w-full min-w-[600px]" ref={tableRef}>
                 <thead>
@@ -137,7 +242,7 @@ export default function AdminReportTable() {
                                     key={`${date}-${category}`}
                                     className="p-2 text-center border-b border-b-primary/20"
                                 >
-                                    {data[category][date] || 0}
+                                    {displayedData[category][date] || 0}
                                 </td>
                             ))}
                         </tr>
