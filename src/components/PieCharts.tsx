@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import {
     Card,
@@ -16,10 +16,16 @@ import {
     ChartTooltipContent,
 } from "./ui/chart"
 import { Pie, PieChart } from "recharts"
+import * as htmlToImage from "html-to-image"
+import { saveAs } from "file-saver"
+import { Button } from "./ui/button"
+import { LuDownload } from "react-icons/lu"
 
 export default function PieCharts() {
     const [chartData, setChartata] = useState<QueueDistributionByLocket[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const chartRef = useRef(null)
+
     const color = "#446AEF"
 
     const getAllDailyStats = useCallback(async () => {
@@ -73,8 +79,25 @@ export default function PieCharts() {
             label: "Jumlah",
         },
     } satisfies ChartConfig
+
+    // Function to download the chart as PNG
+    const downloadChartAsPng = async () => {
+        if (chartRef.current) {
+            const dataUrl = await htmlToImage.toPng(chartRef.current)
+            saveAs(dataUrl, "daily-queue-chart.png")
+        }
+    }
+
     return (
-        <Card className="flex flex-col">
+        <Card ref={chartRef} className="flex flex-col">
+            <Button
+                onClick={downloadChartAsPng}
+                size={"icon"}
+                variant={"ghost"}
+                className="m-2"
+            >
+                <LuDownload />
+            </Button>
             <CardHeader className="items-center pb-0">
                 <CardTitle>Distirbusi Antrian Pada setiap Loket</CardTitle>
                 <CardDescription>All Time</CardDescription>

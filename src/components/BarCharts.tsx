@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
-
+import { useCallback, useEffect, useState, useRef } from "react"
 import {
     Card,
     CardContent,
@@ -19,6 +18,10 @@ import { toZonedTime } from "date-fns-tz"
 import { format } from "date-fns"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import { IoTrendingUp } from "react-icons/io5"
+import * as htmlToImage from "html-to-image"
+import { saveAs } from "file-saver"
+import { Button } from "./ui/button"
+import { LuDownload } from "react-icons/lu"
 
 export default function BarCharts() {
     const [data, setData] = useState<DailyQueueTotalStats[]>([])
@@ -26,6 +29,7 @@ export default function BarCharts() {
     const color = "#446AEF"
     const timeZone = "Asia/Jakarta"
     const today = format(toZonedTime(new Date(), timeZone), "LLLL")
+    const chartRef = useRef(null)
 
     const getAllDailyStats = useCallback(async () => {
         try {
@@ -75,8 +79,24 @@ export default function BarCharts() {
         },
     } satisfies ChartConfig
 
+    // Function to download the chart as PNG
+    const downloadChartAsPng = async () => {
+        if (chartRef.current) {
+            const dataUrl = await htmlToImage.toPng(chartRef.current)
+            saveAs(dataUrl, "daily-queue-chart.png")
+        }
+    }
+
     return (
-        <Card>
+        <Card ref={chartRef} className="flex flex-col">
+            <Button
+                onClick={downloadChartAsPng}
+                size={"icon"}
+                className="left-0 m-2"
+                variant={"ghost"}
+            >
+                <LuDownload />
+            </Button>
             <CardHeader>
                 <CardTitle>Grafik Antrian Harian</CardTitle>
                 <CardDescription>{today}</CardDescription>
