@@ -101,7 +101,7 @@ export default function Queue() {
         <>
             <HeaderLayout>
                 <section className="min-h-full">
-                    <div className="gap-4 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-4">
+                    <div className="gap-4 space-y-3 lg:space-y-0 sm:grid lg:grid-cols-4">
                         {locket.map((value: Locket, index: number) => {
                             const totalQueue =
                                 queues.get(value.id)?.currentQueue ?? 0

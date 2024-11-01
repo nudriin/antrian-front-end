@@ -160,7 +160,7 @@ export default function AddQueue() {
         <>
             <HeaderLayout>
                 <section className="min-h-full">
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="gap-4 space-y-3 lg:space-y-0 sm:grid lg:grid-cols-4">
                         {locket.map((value: Locket, index: number) => {
                             const totalQueue = queues.get(value.id)?.total ?? 0
                             const locketCode = getLocketCodeFromName(value.name)
@@ -175,7 +175,7 @@ export default function AddQueue() {
                             return (
                                 <div
                                     key={index}
-                                    className={`
+                                    className={`p-2
                                     ${index > 3 ? "col-span-2" : "col-span-1"}
                                     rounded-2xl
                                     ${index === 1 ? "bg-primary text-lime" : ""}
