@@ -32,6 +32,7 @@ const QueueTable = ({
     const { isReady, textToSpeech } = useTextToSpeech()
     const columns = [
         columnHelper.accessor("queue_number", {
+            id: "queueNumber", // Add unique id
             cell: (info) => (
                 <span
                     className={cn(
@@ -47,6 +48,7 @@ const QueueTable = ({
             header: () => <span>Nomor Antrian</span>,
         }),
         columnHelper.accessor("id", {
+            id: "callAction", // Add unique id
             cell: (info) => (
                 <div className="flex items-center justify-center p-2">
                     <button
@@ -78,6 +80,7 @@ const QueueTable = ({
             header: () => <span>Panggil</span>,
         }),
         columnHelper.accessor("id", {
+            id: "pendingAction", // Add unique id
             cell: (info) => (
                 <div className="flex items-center justify-center p-2">
                     <button
@@ -137,7 +140,7 @@ const QueueTable = ({
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
                         <tr
-                            key={row.id}
+                            key={`row-${row.original.id}`} // Use a unique key combining row id
                             className="border-2 rounded-lg border-primary"
                         >
                             {row.getVisibleCells().map((cell) => (

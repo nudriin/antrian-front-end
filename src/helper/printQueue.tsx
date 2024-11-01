@@ -1,9 +1,9 @@
-import moment from 'moment/min/moment-with-locales';
-import 'moment/locale/id';
+import moment from "moment/min/moment-with-locales"
+import "moment/locale/id"
 
 export default function printQueue(total: string, locketName: string) {
-    moment.locale('id');
-    const today = moment().format('LLLL');
+    moment.locale("id")
+    const today = moment().format("LLLL")
 
     const dataToPrint = `<html>
     <head>
@@ -14,8 +14,8 @@ export default function printQueue(total: string, locketName: string) {
     <style>
         @media print {
             @page {
-                size: 10cm 15cm;
-                size: landscape;
+                size: 58mm 100mm;
+                size: portrait;
                 margin: 0;
             }
         }
@@ -26,7 +26,7 @@ export default function printQueue(total: string, locketName: string) {
             gap: 0px;
             align-items: center;
             font-family: 'Poppins', sans-serif;
-            margin: 1px;
+            margin: 2px;
             text-align: center;
         }
 
@@ -73,10 +73,10 @@ export default function printQueue(total: string, locketName: string) {
         </div>
     </body>
 </html>
-`;
+`
 
-    const printWindow = window.open('', '_blank');
-    printWindow?.document.write(dataToPrint);
-    printWindow?.print();
-    printWindow?.close();
+    const printWindow = window.open("", "_blank")
+    printWindow?.document.write(dataToPrint)
+    printWindow?.print()
+    printWindow?.close()
 }
