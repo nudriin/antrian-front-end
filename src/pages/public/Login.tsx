@@ -74,8 +74,8 @@ export default function Login() {
     }
     return (
         <section>
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="w-1/3 p-8 bg-white text-primary rounded-xl">
+            <div className="flex items-center justify-center w-full min-h-screen">
+                <div className="w-full p-8 bg-white sm:w-1/2 lg:w-1/3 text-primary rounded-xl">
                     <h1 className="my-2 text-5xl font-semibold text-left">
                         Login
                     </h1>
