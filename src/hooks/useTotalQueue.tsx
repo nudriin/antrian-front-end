@@ -76,6 +76,7 @@ export default function useTotalQueue(name: string) {
         })
 
         return () => {
+            socket.off("total")
             socket.disconnect()
         }
     }, [getTotalQueue])
