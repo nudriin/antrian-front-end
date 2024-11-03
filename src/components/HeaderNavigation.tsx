@@ -152,7 +152,7 @@ export default function HeaderNavigation({
                     </div>
                 )}
             </div>
-            <div className="p-0 mt-[68px]">{children}</div>
+            <div className="p-0 mt-[80px] md:mt-[68px]">{children}</div>
         </div>
     )
 }
