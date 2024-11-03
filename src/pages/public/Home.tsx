@@ -20,10 +20,10 @@ export default function Home() {
                                 <div className="flex items-center gap-4">
                                     <IoIosContacts size={130} className="" />
                                     <div>
-                                        <h1 className="text-4xl font-bold">
+                                        <h1 className="text-2xl md:text-4xl font-bold">
                                             Nomor Antrian
                                         </h1>
-                                        <p className="my-2">
+                                        <p className="text-sm md:text-base my-2">
                                             Halaman Nomor Antrian digunakan
                                             untuk menampilkan antrian pengunjung
                                         </p>
@@ -45,10 +45,10 @@ export default function Home() {
                                 <div className="flex items-center gap-4">
                                     <IoMdAddCircle size={130} className="" />
                                     <div>
-                                        <h1 className="my-3 text-4xl font-bold">
+                                        <h1 className="text-2xl md:text-4xl font-bold">
                                             Tambah Antrian
                                         </h1>
-                                        <p className="my-3">
+                                        <p className="my-2 text-sm md:text-base ">
                                             Halaman Nomor Antrian digunakan
                                             untuk mengambil nomor antrian
                                         </p>
@@ -70,10 +70,10 @@ export default function Home() {
                                 <div className="flex items-center gap-4">
                                     <IoIosMic size={130} className="" />
                                     <div>
-                                        <h1 className="my-3 text-4xl font-bold">
+                                        <h1 className="text-2xl md:text-4xl font-bold">
                                             Loket
                                         </h1>
-                                        <p className="my-3">
+                                        <p className="my-2 text-sm md:text-base">
                                             Halaman Loket digunakan petugas
                                             loket untuk memanggil antrian
                                             pengunjung.
