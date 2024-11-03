@@ -10,7 +10,6 @@ import {
 import React, { useState } from "react"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
-import moment from "moment"
 
 export default function Login() {
     const [, setCookie] = useCookies(["auth"])
@@ -44,13 +43,7 @@ export default function Login() {
             if (!data.errors) {
                 console.log(data.data.token)
                 setLoading(false)
-
-                const d = moment().add(1, "m").utc(true).local().toDate()
-                setCookie("auth", data.data.token, {
-                    expires: d,
-                    path: "/", // Pastikan cookie tersedia di seluruh situs
-                    sameSite: "strict", // Perlindungan terhadap CSRF
-                })
+                setCookie("auth", data.data.token)
 
                 toast({
                     title: "Sukses Login",
