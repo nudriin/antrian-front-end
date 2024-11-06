@@ -74,12 +74,14 @@ export default function useNextQueue(name: string) {
     useEffect(() => {
         socket.connect()
 
-        socket.on("nextQueue", (data) => {
+        const onNextQueue = (data: QueueAggregateResponse) => {
             setNext(data)
-        })
+        }
+
+        socket.on("nextQueue", onNextQueue)
 
         return () => {
-            socket.disconnect()
+            socket.off("nextQueue", onNextQueue)
         }
     }, [])
 

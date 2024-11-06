@@ -74,12 +74,13 @@ export default function useCurrentQueue(name: string) {
     useEffect(() => {
         socket.connect()
 
-        socket.on("currentQueue", (data) => {
+        const onCurrentQueue = (data: QueueAggregateResponse) => {
             setCurrent(data)
-        })
+        }
+        socket.on("currentQueue", onCurrentQueue)
 
         return () => {
-            socket.disconnect()
+            socket.off("currentQueue", onCurrentQueue)
         }
     }, [getCurrentQueue])
 

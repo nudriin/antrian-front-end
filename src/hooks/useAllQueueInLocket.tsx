@@ -73,14 +73,15 @@ export default function useAllQueueInLocket(name: string) {
     useEffect(() => {
         socket.connect()
 
-        socket.on("allQueue", (data: Queue[] | []) => {
-            setQueues(data)
-        })
+        const onAllQueue = () => {
+            getAllQueue()
+        }
+        socket.on("allQueue", onAllQueue)
 
         return () => {
-            socket.disconnect()
+            socket.off("allQueue", onAllQueue)
         }
-    }, [])
+    }, [getAllQueue])
 
     return queues
 }

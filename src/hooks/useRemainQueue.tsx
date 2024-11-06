@@ -74,12 +74,14 @@ export default function useRemainQueue(name: string) {
     useEffect(() => {
         socket.connect()
 
-        socket.on("remainQueue", (data) => {
+        const onRemainQueue = (data: QueueAggregateResponse) => {
             setRemain(data)
-        })
+        }
+
+        socket.on("remainQueue", onRemainQueue)
 
         return () => {
-            socket.disconnect()
+            socket.off("remainQueue", onRemainQueue)
         }
     }, [])
 

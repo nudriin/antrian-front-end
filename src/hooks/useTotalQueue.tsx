@@ -71,13 +71,13 @@ export default function useTotalQueue(name: string) {
     useEffect(() => {
         socket.connect()
 
-        socket.on("total", () => {
+        const onTotal = () => {
             getTotalQueue()
-        })
+        }
+        socket.on("total", onTotal)
 
         return () => {
-            socket.off("total")
-            socket.disconnect()
+            socket.off("total", onTotal)
         }
     }, [getTotalQueue])
 

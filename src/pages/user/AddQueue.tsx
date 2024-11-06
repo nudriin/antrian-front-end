@@ -99,13 +99,15 @@ export default function AddQueue() {
             console.log(socket.id) // an alphanumeric id...
         })
 
-        socket.on("total", () => {
+        const onTotal = () => {
             getTotalQueue()
-        })
+        }
+
+        socket.on("total", onTotal)
 
         setLoading(false)
         return () => {
-            socket.disconnect()
+            socket.off("total", onTotal)
         }
     }, [getTotalQueue])
 
