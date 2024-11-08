@@ -1,130 +1,184 @@
+import { Button } from "../../components/ui/button"
 import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "../../components/ui/card"
+import {
+    Form,
     FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-    Input,
-    Button,
-    useToast,
-} from "@chakra-ui/react"
-import React, { useState } from "react"
+    FormMessage,
+} from "../../components/ui/form"
+import { Input } from "../../components/ui/input"
+import { useToast } from "../../hooks/use-toast"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
+import ReCAPTCHA from "react-google-recaptcha"
+import { useRef } from "react"
+import { UserResponse } from "../../types/payload"
+
+const formSchema = z.object({
+    email: z.string().email({ message: "Email tidak valid" }).min(1).max(225),
+    password: z
+        .string()
+        .min(4, {
+            message: "Password minimal 4 karakter",
+        })
+        .max(225),
+})
+
+type formSchemaType = z.infer<typeof formSchema>
 
 export default function Login() {
+    const form = useForm<formSchemaType>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    })
+
     const [, setCookie] = useCookies(["auth"])
-    const [formData, setFormData] = useState({})
-    const [loading, setLoading] = useState(false)
-    const toast = useToast()
-
+    const { toast } = useToast()
     const navigate = useNavigate()
+    const captchaRef = useRef<ReCAPTCHA | null>(null)
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.id]: e.target.value,
-        })
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+    const handleFormSubmit = async (value: formSchemaType) => {
+        console.log(value)
         try {
-            setLoading(true)
-            const response = await fetch("/api/users/login", {
+            const captchaToken = captchaRef?.current?.getValue()
+            const captchaReponse = await fetch(`/api/users/verify/captcha`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({ token: captchaToken }),
             })
 
-            const data = await response.json()
+            const captchaBody = await captchaReponse.json()
 
-            if (!data.errors) {
-                console.log(data.data.token)
-                setLoading(false)
-                setCookie("auth", data.data.token)
-
-                toast({
-                    title: "Sukses Login",
-                    description: "Terimakasih!",
-                    status: "success",
-                })
-                navigate("/")
+            if (!captchaBody.errors && captchaBody.data.success) {
+                console.log("Human 👨 👩")
             } else {
-                toast({
-                    title: "Gagal",
-                    description: `${data.errors}`,
-                    status: "error",
-                })
-                setLoading(false)
-                throw new Error(data.errors)
+                console.log("Robot 🤖")
+                throw new Error("gagal verifikasikan reCaptcha")
             }
+            captchaRef?.current?.reset()
+
+            const response = await fetchLogin(value)
+            setCookie("auth", response.token)
+            toast({
+                title: "Sukses",
+                description: "Login berhasil",
+            })
+            navigate("/")
         } catch (error) {
-            setLoading(false)
-            console.log(error)
+            toast({
+                title: "Error",
+                description: `${error}`,
+                variant: "destructive",
+            })
         }
     }
     return (
-        <section>
-            <div className="flex items-center justify-center w-full min-h-screen">
-                <div className="w-full p-8 bg-white sm:w-1/2 lg:w-1/3 text-primary rounded-xl">
-                    <h1 className="my-2 text-5xl font-semibold text-left">
-                        Login
-                    </h1>
-                    <p className="mb-6 text-left">
-                        Silahkan masukan data anda dengan benar
-                    </p>
-                    <form>
-                        <FormControl className="text-darks-2" isRequired>
-                            <FormLabel fontWeight="bold">Email</FormLabel>
-                            <Input
-                                id="email"
-                                type="email"
-                                bgColor="white"
-                                color="GrayText"
-                                borderColor="black"
-                                onChange={handleChange}
+        <div className="flex items-center justify-center min-h-screen">
+            <Card className="w-full h-full text-left border-2 border-primary shadow-box dark:shadow-light md:w-1/2 lg:w-1/3">
+                <CardHeader>
+                    <CardTitle className="mt-4 text-4xl">Login</CardTitle>
+                    <CardDescription>
+                        Mohon masukan data anda dengan benar
+                    </CardDescription>
+                </CardHeader>
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(handleFormSubmit)}
+                        className="space-y-4"
+                    >
+                        <CardContent>
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="email"
+                                                placeholder="contoh@email.com"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            Mohon masukan email anda!
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                            <FormHelperText textAlign="left">
-                                Mohon masukan email anda!
-                            </FormHelperText>
-                            <FormErrorMessage textAlign="left">
-                                Email is required.
-                            </FormErrorMessage>
-                            <FormLabel fontWeight="bold" marginTop={5}>
-                                Password
-                            </FormLabel>
-                            <Input
-                                id="password"
-                                type="password"
-                                bgColor="white"
-                                color="GrayText"
-                                borderColor="black"
-                                onChange={handleChange}
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                placeholder="rahasia***"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            Mohon masukan password anda!
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                            <FormHelperText textAlign="left">
-                                Mohon masukan password anda!
-                            </FormHelperText>
-                            <FormErrorMessage textAlign="left">
-                                Email is required.
-                            </FormErrorMessage>
+                        </CardContent>
+                        <CardFooter className="flex-col gap-4 felx">
+                            <ReCAPTCHA
+                                sitekey={import.meta.env.VITE_APP_SITE_KEY}
+                                ref={captchaRef}
+                            />
                             <Button
-                                loadingText="Login"
-                                isLoading={loading}
-                                onClick={handleSubmit}
-                                marginTop={5}
-                                backgroundColor="#171717"
-                                width="100%"
-                                color="#FFF"
-                                type="submit"
+                                onClick={form.handleSubmit(handleFormSubmit)}
+                                disabled={form.formState.isSubmitting}
+                                className="w-full mb-4 font-semibold text-primary bg-lime hover:text-background"
                             >
                                 Login
                             </Button>
-                        </FormControl>
+                        </CardFooter>
                     </form>
-                </div>
-            </div>
-        </section>
+                </Form>
+            </Card>
+        </div>
     )
+}
+
+async function fetchLogin(request: formSchemaType): Promise<UserResponse> {
+    const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(request),
+    })
+
+    const body = await response.json()
+    if (body.errors) {
+        throw new Error(body.errors)
+    }
+
+    return body.data
 }
