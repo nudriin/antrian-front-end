@@ -154,7 +154,7 @@ export default function Login() {
                             <Button
                                 onClick={form.handleSubmit(handleFormSubmit)}
                                 disabled={form.formState.isSubmitting}
-                                className="w-full mb-4 font-semibold text-primary bg-lime hover:text-background"
+                                className="w-full mb-4 font-semibold text-secondary bg-highlight hover:text-background"
                             >
                                 Login
                             </Button>
