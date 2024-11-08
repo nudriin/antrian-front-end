@@ -12,6 +12,8 @@ import { useCookies } from "react-cookie"
 import AdminLayout from "../../components/AdminLayout"
 import AdminAddUserBtn from "../../components/AdminAddUserBtn"
 import AdminDeleteUserBtn from "../../components/AdminDeleteUserBtn"
+import { Button } from "../../components/ui/button"
+import { TbTrashXFilled } from "react-icons/tb"
 
 const columnHelper = createColumnHelper<UserResponse>()
 export default function AdminUsers() {
@@ -76,7 +78,16 @@ function UsersTable() {
             header: () => <span>Role</span>,
         }),
         columnHelper.accessor("id", {
-            cell: (info) => <AdminDeleteUserBtn id={info.getValue()} />,
+            cell: (info) => {
+                const role = info.row.original.role
+                return role !== "SUPER_ADMIN" ? (
+                    <AdminDeleteUserBtn id={info.getValue()} />
+                ) : (
+                    <Button disabled>
+                        <TbTrashXFilled />
+                    </Button>
+                )
+            },
             header: () => <span>Aksi</span>,
         }),
     ]
