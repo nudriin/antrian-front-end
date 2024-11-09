@@ -7,4 +7,6 @@ export const socket = io(url, {
     reconnection: true,
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
+    secure: true,
+    rejectUnauthorized: false,
 })
