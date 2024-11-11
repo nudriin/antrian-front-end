@@ -122,7 +122,7 @@ export default function BarCharts() {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
                 <div className="flex gap-2 font-medium leading-none">
-                    Trending antrian harian pada bulan ini{" "}
+                    Trending harian keseluruhan loket pada bulan ini{" "}
                     <IoTrendingUp className="w-4 h-4" />
                 </div>
             </CardFooter>
