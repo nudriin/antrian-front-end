@@ -10,7 +10,8 @@ export default function Welcome() {
                         <TbAwardFilled size={80} className="" />
                         <div className="text-left">
                             <h1 className="text-4xl font-semibold">
-                                Selamat datang di admin loket
+                                Selamat Datang di Dinas Pendidikan Kota
+                                Palangkaraya!
                             </h1>
                             <p className="text-darks2">
                                 Silahkan pilih loket anda pada menu di bagian
@@ -19,33 +20,32 @@ export default function Welcome() {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-4 p-4 text-left bg-white border-2 border-primary rounded-xl">
+                <div className="col-span-4 p-4 text-left bg-white border-2 border-primary rounded-xl min-h-screen">
                     <p className="mb-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam consequuntur veritatis accusamus earum dolores
-                        dolorem, aliquam quam explicabo quis enim cumque, ad in
-                        quo ducimus nesciunt cum consectetur, eaque ut.
+                        Kami hadir untuk melayani dan mendukung kebutuhan
+                        pendidikan di kota Palangkaraya. Kami berkomitmen untuk
+                        meningkatkan kualitas pendidikan, memberikan layanan
+                        terbaik, dan memastikan semua anak memiliki akses
+                        pendidikan yang berkualitas.
                     </p>
                     <p className="mb-4">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Eaque, amet officia aliquam ratione omnis hic odit
-                        in veniam eligendi labore esse tempora delectus,
-                        recusandae qui expedita sapiente sint dolore
-                        consequuntur?
+                        <span className="text-lg font-semibold">
+                            Jam Pelayanan:
+                        </span>
+                        <br />
+                        Senin - Jumat: 08.00 - 15.00 <br />
+                        Sabtu & Minggu: Libur
                     </p>
                     <p className="mb-4">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Eaque, amet officia aliquam ratione omnis hic odit
-                        in veniam eligendi labore esse tempora delectus,
-                        recusandae qui expedita sapiente sint dolore
-                        consequuntur?
-                    </p>
-                    <p className="mb-4">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Eaque, amet officia aliquam ratione omnis hic odit
-                        in veniam eligendi labore esse tempora delectus,
-                        recusandae qui expedita sapiente sint dolore
-                        consequuntur?
+                        <span className="text-lg font-semibold">
+                            Tentang Kami:
+                        </span>
+                        <br />
+                        Dinas Pendidikan Kota Palangkaraya berperan sebagai
+                        lembaga yang mengelola, mengawasi, dan mengembangkan
+                        sistem pendidikan di wilayah kami. Kami terus berupaya
+                        menciptakan lingkungan belajar yang kondusif bagi
+                        seluruh peserta didik, guru.
                     </p>
                 </div>
             </div>
