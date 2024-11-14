@@ -109,31 +109,36 @@ export default function Queue() {
                             const total = `${locketCode}${String(
                                 totalQueue
                             ).padStart(2, "0")}`
+
+                            let backgroundColor = "bg-white"
+                            let textColor = "text-primary"
+
+                            if (index === 0) {
+                                backgroundColor = "bg-[#8E8CFF]"
+                                textColor = "text-primary"
+                            } else if (index === 1) {
+                                backgroundColor = "bg-[#FFB800]"
+                                textColor = "text-primary"
+                            } else if (index === 2) {
+                                backgroundColor = "bg-[#FF6B6B]"
+                                textColor = "text-primary"
+                            } else if (index === 3) {
+                                backgroundColor = "bg-[#00CCFF]"
+                                textColor = "text-primary"
+                            } else if (index === 4) {
+                                backgroundColor = "bg-[#4EB4C0]"
+                                textColor = "text-primary"
+                            } else if (index === 5) {
+                                backgroundColor = "bg-[#FF93D2]"
+                                textColor = "text-primary"
+                            } else if (index === 6) {
+                                backgroundColor = "bg-[#73FF73]"
+                                textColor = "text-primary"
+                            }
                             return (
                                 <div
                                     key={index}
-                                    className={`p-2
-                                    ${index > 3 ? "col-span-2" : "col-span-1"}
-                                    rounded-2xl
-                                    ${index === 1 ? "bg-primary text-lime" : ""}
-                                    ${
-                                        index === 2
-                                            ? "bg-highlight text-white"
-                                            : ""
-                                    }
-                                    ${
-                                        index === locket.length - 1
-                                            ? "bg-lime text-primary"
-                                            : ""
-                                    }
-                                    ${
-                                        index !== 1 &&
-                                        index !== 2 &&
-                                        index !== locket.length - 1
-                                            ? "bg-white"
-                                            : ""
-                                    }
-                                    `}
+                                    className={`p-2 rounded-2xl ${backgroundColor} ${textColor}`}
                                 >
                                     <h3
                                         className={`text-2xl my-3 uppercase font-semibold`}
