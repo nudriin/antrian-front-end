@@ -163,7 +163,7 @@ export default function AddQueue() {
             <HeaderLayout>
                 <section className="min-h-full">
                     <div className="gap-4 space-y-3 lg:space-y-0 sm:grid lg:grid-cols-4">
-                        {locket.map((value: Locket, index: number) => {
+                        {locket.map((value, index) => {
                             const totalQueue = queues.get(value.id)?.total ?? 0
                             const locketCode = getLocketCodeFromName(value.name)
                             const total = `${locketCode}${String(
@@ -174,31 +174,37 @@ export default function AddQueue() {
                                     ? totalQueue + 1
                                     : 1
                             ).padStart(2, "0")}`
+
+                            let backgroundColor = "bg-white"
+                            let textColor = "text-primary"
+
+                            if (index === 0) {
+                                backgroundColor = "bg-[#8E8CFF]"
+                                textColor = "text-primary"
+                            } else if (index === 1) {
+                                backgroundColor = "bg-[#FFB800]"
+                                textColor = "text-primary"
+                            } else if (index === 2) {
+                                backgroundColor = "bg-[#FF6B6B]"
+                                textColor = "text-primary"
+                            } else if (index === 3) {
+                                backgroundColor = "bg-[#00CCFF]"
+                                textColor = "text-primary"
+                            } else if (index === 4) {
+                                backgroundColor = "bg-[#4EB4C0]"
+                                textColor = "text-primary"
+                            } else if (index === 5) {
+                                backgroundColor = "bg-[#FF93D2]"
+                                textColor = "text-primary"
+                            } else if (index === 6) {
+                                backgroundColor = "bg-[#73FF73]"
+                                textColor = "text-primary"
+                            }
+
                             return (
                                 <div
                                     key={index}
-                                    className={`p-2
-                                    ${index > 3 ? "col-span-2" : "col-span-1"}
-                                    rounded-2xl
-                                    ${index === 1 ? "bg-primary text-lime" : ""}
-                                    ${
-                                        index === 2
-                                            ? "bg-highlight text-white"
-                                            : ""
-                                    }
-                                    ${
-                                        index === locket.length - 1
-                                            ? "bg-lime text-primary"
-                                            : ""
-                                    }
-                                    ${
-                                        index !== 1 &&
-                                        index !== 2 &&
-                                        index !== locket.length - 1
-                                            ? "bg-white"
-                                            : ""
-                                    }
-                                    `}
+                                    className={`p-2 rounded-2xl ${backgroundColor} ${textColor}`}
                                 >
                                     <h3
                                         className={`text-2xl my-3 uppercase font-semibold`}
@@ -214,36 +220,27 @@ export default function AddQueue() {
                                         Loket {value.name}
                                     </h3>
                                     <button
-                                        onClick={(
-                                            e: React.MouseEvent<HTMLButtonElement>
-                                        ) => {
+                                        onClick={(e) => {
                                             addQueue(e)
                                             printQueue(totalPrint, value.name)
                                         }}
                                         value={value.id}
                                         disabled={loading}
                                         className={`flex gap-2 items-center justify-center mx-auto mb-4 py-3 px-3 rounded-full font-semibold hover:bg-muted ${
-                                            index === 1
-                                                ? "bg-lime text-primary"
-                                                : ""
-                                        }
-                                    ${
-                                        index === 2
-                                            ? "bg-white text-primary"
-                                            : ""
-                                    }
-                                    ${
-                                        index === locket.length - 1
-                                            ? "bg-primary text-white"
-                                            : ""
-                                    }
-                                    ${
-                                        index !== 1 &&
-                                        index !== 2 &&
-                                        index !== locket.length - 1
-                                            ? "bg-primary text-white"
-                                            : ""
-                                    }`}
+                                            index === 0
+                                                ? "bg-primary text-white"
+                                                : index === 1
+                                                ? "bg-primary text-white"
+                                                : index === 2
+                                                ? "bg-primary text-white"
+                                                : index === 3
+                                                ? "bg-primary text-white"
+                                                : index === 4
+                                                ? "bg-primary text-white"
+                                                : index === 5
+                                                ? "bg-primary text-white"
+                                                : "bg-primary text-white"
+                                        }`}
                                     >
                                         <IoMdAddCircle size={25} /> Tambah
                                         Antrian
