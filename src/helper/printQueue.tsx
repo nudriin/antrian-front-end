@@ -75,17 +75,8 @@ export default function printQueue(total: string, locketName: string) {
 </html>
 `
 
-    const iframe = document.createElement("iframe")
-    iframe.style.display = "none"
-    document.body.appendChild(iframe)
-
-    iframe.contentWindow?.document.write(dataToPrint)
-    iframe.contentWindow?.document.close()
-
-    iframe.onload = function () {
-        iframe.contentWindow?.print()
-        setTimeout(() => {
-            document.body.removeChild(iframe)
-        }, 1000)
-    }
+    const printWindow = window.open("", "_blank")
+    printWindow?.document.write(dataToPrint)
+    printWindow?.print()
+    printWindow?.close()
 }
