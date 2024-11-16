@@ -9,7 +9,8 @@ export default {
 	theme: {
 		extend: {
 			backgroundImage: {
-				'disdik-img': "url('/bg.png')"
+				'disdik-img': "url('/bg.png')",
+				'dayak-header': "url('/dayak_header.png')"
 			},
 			fontFamily: {
 				lato: 'Lato, sans-serif',
