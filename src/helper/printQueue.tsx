@@ -77,6 +77,8 @@ export default function printQueue(total: string, locketName: string) {
 
     const printWindow = window.open("", "_blank")
     printWindow?.document.write(dataToPrint)
+    printWindow?.addEventListener("afterprint", () => {
+        printWindow?.close()
+    })
     printWindow?.print()
-    printWindow?.close()
 }
